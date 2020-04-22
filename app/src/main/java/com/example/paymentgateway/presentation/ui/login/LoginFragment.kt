@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.paymentgateway.R
 import com.example.paymentgateway.databinding.FragmentLoginBinding
 import com.example.paymentgateway.presentation.ui.login.core.LoginViewModelFactory
 import com.example.paymentgateway.presentation.ui.login.state.LoggedInUserView
 import com.example.paymentgateway.presentation.util.afterTextChanged
+import com.example.paymentgateway.presentation.util.toast
 
 class LoginFragment: Fragment() {
 
@@ -111,15 +112,12 @@ class LoginFragment: Fragment() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO: victor.valencia initiate successful logged in experience
-        Toast.makeText(
-            context,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+        toast("$welcome $displayName")
+        // initiate successful logged in experience
+        findNavController().navigate(R.id.action_loginFragment_to_menuFragment)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(context, errorString, Toast.LENGTH_SHORT).show()
+        toast(getString(errorString))
     }
 }
