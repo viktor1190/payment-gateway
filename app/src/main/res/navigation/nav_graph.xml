@@ -18,5 +18,14 @@
         android:id="@+id/menuFragment"
         android:name="com.example.paymentgateway.presentation.ui.menu.MenuFragment"
         android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_paymentFormFragment"
+            app:destination="@id/paymentFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFormFragment"
+        android:name="com.example.paymentgateway.presentation.ui.paymentForm.PaymentFormFragment"
+        android:label="fragment_payment_form"
+        tools:layout="@layout/fragment_payment_form" />
 </navigation>

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.paymentgateway.R
 import com.example.paymentgateway.databinding.FragmentMenuBinding
 import com.example.paymentgateway.presentation.util.toast
 
@@ -34,7 +36,7 @@ class MenuFragment : Fragment() {
 
     private fun setupView() {
         binding.menuButtonNewPayment.setOnClickListener {
-            toast("Go to generate new Payment")
+            findNavController().navigate(R.id.action_menuFragment_to_paymentFormFragment)
         }
         binding.menuButtonPaymentList.setOnClickListener {
             toast("Go to see the list of Payments")

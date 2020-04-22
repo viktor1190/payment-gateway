@@ -12,7 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.paymentgateway.R
 import com.example.paymentgateway.databinding.FragmentLoginBinding
-import com.example.paymentgateway.presentation.ui.login.core.LoginViewModelFactory
+import com.example.paymentgateway.presentation.core.ServiceLocator
+import com.example.paymentgateway.presentation.core.ViewModelFactory
 import com.example.paymentgateway.presentation.ui.login.state.LoggedInUserView
 import com.example.paymentgateway.presentation.util.afterTextChanged
 import com.example.paymentgateway.presentation.util.toast
@@ -23,8 +24,7 @@ class LoginFragment: Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private val factory: LoginViewModelFactory =
-        LoginViewModelFactory()
+    private val factory: ViewModelFactory = ServiceLocator.viewModelFactory
     private val loginViewModel by viewModels<LoginViewModel> { factory }
 
     override fun onCreateView(
