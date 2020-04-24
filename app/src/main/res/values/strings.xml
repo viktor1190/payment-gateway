@@ -21,7 +21,7 @@
     <string name="paymentForm_user_cellphone_hint">Cellphone</string>
     <string name="paymentForm_card_number_hint">Card Number</string>
     <string name="paymentForm_card_dueDate_hint">Due Date</string>
-    <string name="paymentForm_card_cvc_hint">CVC</string>
+    <string name="paymentForm_card_cvv2_hint">CVV2</string>
     <string name="paymentForm_amount_hint">Amount</string>
     <string name="paymentForm_submit_buttton">Submit</string>
     <string name="paymentForm_user_section_label">Personal Info</string>

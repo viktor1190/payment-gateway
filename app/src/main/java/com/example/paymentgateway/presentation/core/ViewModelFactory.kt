@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.paymentgateway.data.LoginDataSource
 import com.example.paymentgateway.data.LoginRepository
 import com.example.paymentgateway.presentation.ui.login.LoginViewModel
+import com.example.paymentgateway.presentation.ui.paymentForm.PaymentFormViewModel
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -14,13 +15,16 @@ class ViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(
-                loginRepository = LoginRepository(
-                    dataSource = LoginDataSource()
+        return when {
+            modelClass.isAssignableFrom(LoginViewModel::class.java) ->
+                LoginViewModel(
+                    loginRepository = LoginRepository(
+                        dataSource = LoginDataSource()
+                    )
                 )
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
+            modelClass.isAssignableFrom(PaymentFormViewModel::class.java) ->
+                PaymentFormViewModel()
+            else -> throw IllegalArgumentException("Unknown ViewModel class")
+        } as T
     }
 }

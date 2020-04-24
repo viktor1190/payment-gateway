@@ -134,14 +134,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_all"
-            android:hint="@string/paymentForm_card_cvc_hint"
+            android:hint="@string/paymentForm_card_cvv2_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout1"
             app:startIconDrawable="@drawable/ic_security_24dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInput_newPayment_card_cvc"
+                android:id="@+id/textInput_newPayment_card_cvv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
