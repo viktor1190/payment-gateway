@@ -173,6 +173,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/margin_all"
             android:layout_marginBottom="@dimen/margin_all"
+            android:enabled="false"
             android:text="@string/paymentForm_submit_buttton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -26,4 +26,11 @@
     <string name="paymentForm_submit_buttton">Submit</string>
     <string name="paymentForm_user_section_label">Personal Info</string>
     <string name="paymentForm_card_section_label">Credit Card</string>
+    <string name="paymentForm_invalid_user_name">Name should have at least 2 letters</string>
+    <string name="paymentForm_invalid_user_email">Invalid email</string>
+    <string name="paymentForm_invalid_user_cellphone">Invalid cellphone</string>
+    <string name="paymentForm_invalid_card_number">Card number must be at least 10 numbers</string>
+    <string name="paymentForm_invalid_card_due_monthYear">Invalid. Use mm/yyyy format</string>
+    <string name="paymentForm_invalid_card_cvv">Invalid CVV</string>
+    <string name="paymentForm_invalid_amount">Invalid Amount</string>
 </resources>

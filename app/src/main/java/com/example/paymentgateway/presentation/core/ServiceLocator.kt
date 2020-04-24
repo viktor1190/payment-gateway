@@ -1,13 +1,26 @@
 package com.example.paymentgateway.presentation.core
 
+import com.example.paymentgateway.data.TransactionRepositoryImpl
+import com.example.paymentgateway.data.UserRepositoryImpl
 import com.example.paymentgateway.data.retrofit.PlaceToPlayApiService
+import com.example.paymentgateway.domain.GetCurrentUserUseCase
+import com.example.paymentgateway.domain.SendCheckoutUseCase
+import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelMapper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 object ServiceLocator {
 
-    val viewModelFactory by lazy { ViewModelFactory() }
+    val viewModelFactory by lazy { ViewModelFactory(sendCheckoutUseCase, CheckoutModelMapper()) }
+
+    private val userRepository by lazy { UserRepositoryImpl() }
+
+    private val transactionRepository by lazy { TransactionRepositoryImpl() }
+
+    private val getCurrentUserUseCase by lazy { GetCurrentUserUseCase(userRepository) }
+
+    private val sendCheckoutUseCase by lazy { SendCheckoutUseCase(getCurrentUserUseCase, transactionRepository) }
 
     private val retrofit by lazy {
         val gsonConverter = GsonConverterFactory.create()
