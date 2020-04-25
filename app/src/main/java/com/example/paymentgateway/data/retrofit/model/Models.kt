@@ -1,7 +1,5 @@
 package com.example.paymentgateway.data.retrofit.model
 
-import java.time.LocalDateTime
-
 data class Authentication(
     val login: String,
     val tranKey: String,
@@ -42,5 +40,5 @@ data class Status(
     val status: String,
     val reason: String,
     val message: String,
-    val date: LocalDateTime
+    val date: String
 )

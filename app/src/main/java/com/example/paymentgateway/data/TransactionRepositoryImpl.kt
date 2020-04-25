@@ -1,21 +1,47 @@
 package com.example.paymentgateway.data
 
-import com.example.paymentgateway.domain.entity.Approved
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.paymentgateway.data.core.NetworkBoundResource
+import com.example.paymentgateway.data.retrofit.PlaceToPlayApiService
+import com.example.paymentgateway.data.retrofit.model.StatusResponse
+import com.example.paymentgateway.data.retrofit.util.ApiResponse
+import com.example.paymentgateway.data.retrofit.util.CheckoutModelDataMapper
 import com.example.paymentgateway.domain.entity.LoggedInUser
 import com.example.paymentgateway.domain.entity.Transaction
 import com.example.paymentgateway.domain.entity.TransactionStatus
+import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.domain.repository.TransactionRepository
-import java.time.LocalDateTime
+import kotlinx.coroutines.CoroutineScope
+import timber.log.Timber
 
-class TransactionRepositoryImpl: TransactionRepository {
+class TransactionRepositoryImpl(
+    private val placeToPlayApiService: PlaceToPlayApiService,
+    private val mapper: CheckoutModelDataMapper
+): TransactionRepository {
 
-    override suspend fun sendCheckout(loggedInUser: LoggedInUser, trasactionData: Transaction): TransactionStatus {
-        print("user: $loggedInUser transactionData: $trasactionData")
-        //TODO("Not yet implemented")
-        return TransactionStatus(Approved(), LocalDateTime.now(), 123.toBigDecimal(), "fake", "fake", "", "", "","")
+    override suspend fun sendCheckout(coroutineScope: CoroutineScope, loggedInUser: LoggedInUser, trasactionData: Transaction): LiveData<Resource<TransactionStatus>> {
+        return object : NetworkBoundResource<TransactionStatus, StatusResponse>(coroutineScope) {
+
+            override suspend fun saveCallResult(item: StatusResponse) {
+                Timber.d("Saving transaction to datastore: $item")
+            }
+
+            override fun shouldFetch(data: TransactionStatus?): Boolean {
+                return data == null
+            }
+
+            override fun loadFromDb(): LiveData<TransactionStatus> {
+                return MutableLiveData(null) // TODO victor.valencia implement the data store
+            }
+
+            override fun createCall(): LiveData<ApiResponse<StatusResponse>> {
+                return placeToPlayApiService.processTransaction(mapper.mapToDataModel(Pair(loggedInUser, trasactionData)))
+            }
+        }.asLiveData()
     }
 
-    override suspend fun getPaymentStatus(): TransactionStatus {
+    override suspend fun getPaymentStatus(): LiveData<Resource<TransactionStatus>> {
         TODO("Not yet implemented")
     }
 }

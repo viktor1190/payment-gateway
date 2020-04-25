@@ -2,14 +2,13 @@ package com.example.paymentgateway.presentation.ui.paymentForm
 
 import android.icu.util.Currency
 import android.icu.util.CurrencyAmount
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.paymentgateway.R
 import com.example.paymentgateway.domain.SendCheckoutUseCase
+import com.example.paymentgateway.domain.entity.TransactionStatus
+import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModel
-import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelMapper
+import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelPresenterMapper
 import com.example.paymentgateway.presentation.ui.paymentForm.state.PaymentFormState
 import kotlinx.coroutines.launch
 import java.util.*
@@ -18,11 +17,14 @@ const val CARD_DUE_MONTH_AND_YEAR_PATTERN = "^(0?[1-9]|11|12)\\/(\\d{4})\$"
 
 class PaymentFormViewModel(
     private val sendCheckoutUseCase: SendCheckoutUseCase,
-    private val mapper: CheckoutModelMapper
+    private val presenterMapper: CheckoutModelPresenterMapper
 ) : ViewModel() {
 
     private val _paymentForm = MutableLiveData<PaymentFormState>()
     val paymentFormState: LiveData<PaymentFormState> = _paymentForm
+
+    private val _transactionResult = MediatorLiveData<Resource<TransactionStatus>>()
+    val transactionResult: LiveData<Resource<TransactionStatus>> = _transactionResult
 
     // TODO victor.valencia add the observer for the submit response
 
@@ -40,8 +42,9 @@ class PaymentFormViewModel(
             val currencyAmount = CurrencyAmount(amount.toFloat(), Currency.getInstance(Locale.getDefault()))
             val checkoutModel = CheckoutModel(name, email, cellphone, cardNumber, cardDueMonthAndYear, cardCvv, currencyAmount)
             viewModelScope.launch {
-                val result = sendCheckoutUseCase(mapper.mapToEntity(checkoutModel))
-                // TODO victor.valencia use the result to proceed or show an error message
+                _transactionResult.addSource(sendCheckoutUseCase(viewModelScope, presenterMapper.mapToEntity(checkoutModel))) {
+                    _transactionResult.value = it
+                }
             }
         }
     }

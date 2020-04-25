@@ -4,7 +4,7 @@ import com.example.paymentgateway.domain.entity.Transaction
 import com.example.paymentgateway.presentation.core.PresentationModelMapper
 import com.example.paymentgateway.presentation.ui.paymentForm.CARD_DUE_MONTH_AND_YEAR_PATTERN
 
-class CheckoutModelMapper: PresentationModelMapper<CheckoutModel, Transaction> {
+class CheckoutModelPresenterMapper: PresentationModelMapper<CheckoutModel, Transaction> {
 
     override fun mapToEntity(model: CheckoutModel): Transaction {
         val cardDueDateMatch = CARD_DUE_MONTH_AND_YEAR_PATTERN.toRegex().find(model.cardDueMonthAndYear) ?: throw UnknownError()

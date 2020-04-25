@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.paymentgateway.databinding.FragmentPaymentFormBinding
+import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.core.ServiceLocator
 import com.example.paymentgateway.presentation.core.ViewModelFactory
 import com.example.paymentgateway.presentation.util.afterTextChanged
+import com.example.paymentgateway.presentation.util.toast
+import timber.log.Timber
 
 class PaymentFormFragment : Fragment() {
 
@@ -87,6 +90,17 @@ class PaymentFormFragment : Fragment() {
             }
             if (paymentState.amountError != null) {
                 binding.textInputNewPaymentPaymentAmount.error = getString(paymentState.amountError)
+            }
+        })
+
+        viewModel.transactionResult.observe(viewLifecycleOwner, Observer {resource ->
+            when(resource) {
+                is Resource.Success -> toast("transaction was created! ${resource.data}")
+                is Resource.Loading -> Timber.d("LOADING payment transaction") // TODO victor.valencia show the progress dialog
+                is Resource.Error -> {
+                    toast("An error occurs: ${resource.message}")
+                    Timber.e(resource.exception)
+                }
             }
         })
 
