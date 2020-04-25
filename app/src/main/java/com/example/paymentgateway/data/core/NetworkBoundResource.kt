@@ -80,7 +80,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
-                    coroutineScope.launch {
+                    coroutineScope.launch(Dispatchers.IO) {
                         saveCallResult(processResponse(response))
                         withContext(Dispatchers.Main) {
                             // we specially request a new live data,

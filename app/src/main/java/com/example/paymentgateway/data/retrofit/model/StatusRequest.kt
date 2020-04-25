@@ -1,5 +1,6 @@
 package com.example.paymentgateway.data.retrofit.model
 
+import java.math.BigDecimal
 import java.math.BigInteger
 
 data class StatusRequest(
@@ -9,7 +10,12 @@ data class StatusRequest(
 )
 
 data class StatusResponse(
+    val reference: String,
     val status: Status,
-    val internalReference: BigInteger,
-    val reference: String
+    val internalReference: BigDecimal?,
+    val receipt: String,
+    val amount: Amount,
+    val paymentMethod: String?,
+    val franchiseName: String?,
+    val authorization: String?
 )

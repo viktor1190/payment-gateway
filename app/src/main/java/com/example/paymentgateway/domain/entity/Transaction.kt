@@ -1,7 +1,7 @@
 package com.example.paymentgateway.domain.entity
 
 data class Transaction (
-    val reference: String? = null,
+    val reference: String,
     val currency: String,
     val total: Float,
     val cardNumber: String,

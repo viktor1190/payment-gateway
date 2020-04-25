@@ -1,20 +1,24 @@
 package com.example.paymentgateway.data.retrofit.util
 
 import com.example.paymentgateway.data.core.DataModelMapper
-import com.example.paymentgateway.data.core.generateRandomReference
-import com.example.paymentgateway.data.retrofit.model.*
+import com.example.paymentgateway.data.retrofit.model.Amount
+import com.example.paymentgateway.data.retrofit.model.Card
+import com.example.paymentgateway.data.retrofit.model.CheckoutRequest
+import com.example.paymentgateway.data.retrofit.model.Instrument
+import com.example.paymentgateway.data.retrofit.model.Payment
+import com.example.paymentgateway.data.retrofit.model.Person
 import com.example.paymentgateway.domain.entity.LoggedInUser
 import com.example.paymentgateway.domain.entity.Transaction
 
-class CheckoutModelDataMapper : DataModelMapper<CheckoutRequest, Pair<LoggedInUser, Transaction>> {
+class CheckoutRequestMapper : DataModelMapper<CheckoutRequest, Pair<LoggedInUser, Transaction>> {
 
-    override fun mapToDataModel(entity: Pair<LoggedInUser, Transaction>): CheckoutRequest {
+    override fun map(entity: Pair<LoggedInUser, Transaction>): CheckoutRequest {
         val user = entity.first
         val trans = entity.second
 
         val auth = AuthenticationFactory(user).getAuthentication()
         val payment = Payment(
-            trans.reference ?: generateRandomReference(),
+            trans.reference,
             Amount(trans.currency, trans.total)
         )
         val instrument = Instrument(

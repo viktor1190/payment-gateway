@@ -1,9 +1,9 @@
 package com.example.paymentgateway.domain.entity
 
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
-sealed class Status() {
+sealed class Status {
     class Approved: Status()
     class Pending: Status()
     open class Failed(val reason: String, val message: String): Status()
@@ -11,13 +11,13 @@ sealed class Status() {
 }
 
 data class TransactionStatus(
-    val status: Status,
-    val date: LocalDateTime,
-    val internalReference: BigDecimal,
     val reference: String,
-    val franchise: String,
-    val amount: String,
+    val internalReference: BigDecimal?,
+    val status: Status?,
     val currency: String,
-    val authorization: String,
-    val receipt: String
+    val total: Float,
+    val franchiseName: String?,
+    val authorization: String?,
+    val receipt: String,
+    val lastUpdate: ZonedDateTime
 )

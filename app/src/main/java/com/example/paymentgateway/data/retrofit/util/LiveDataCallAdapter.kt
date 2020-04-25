@@ -17,8 +17,12 @@ package com.example.paymentgateway.data.retrofit.util
  */
 
 import androidx.lifecycle.LiveData
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.CallAdapter
 import retrofit2.CallAdapter.Factory
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean

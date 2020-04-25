@@ -2,7 +2,11 @@ package com.example.paymentgateway.presentation.ui.paymentForm
 
 import android.icu.util.Currency
 import android.icu.util.CurrencyAmount
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.paymentgateway.R
 import com.example.paymentgateway.domain.SendCheckoutUseCase
 import com.example.paymentgateway.domain.entity.TransactionStatus
@@ -11,7 +15,7 @@ import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutMode
 import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelPresenterMapper
 import com.example.paymentgateway.presentation.ui.paymentForm.state.PaymentFormState
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Locale
 
 const val CARD_DUE_MONTH_AND_YEAR_PATTERN = "^(0?[1-9]|11|12)\\/(\\d{4})\$"
 

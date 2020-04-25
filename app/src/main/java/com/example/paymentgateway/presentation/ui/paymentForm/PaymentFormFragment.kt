@@ -95,7 +95,10 @@ class PaymentFormFragment : Fragment() {
 
         viewModel.transactionResult.observe(viewLifecycleOwner, Observer {resource ->
             when(resource) {
-                is Resource.Success -> toast("transaction was created! ${resource.data}")
+                is Resource.Success -> {
+                    toast("transaction was created! ${resource.data}")
+                    Timber.d("Transaction created: ${resource.data}")
+                }
                 is Resource.Loading -> Timber.d("LOADING payment transaction") // TODO victor.valencia show the progress dialog
                 is Resource.Error -> {
                     toast("An error occurs: ${resource.message}")
