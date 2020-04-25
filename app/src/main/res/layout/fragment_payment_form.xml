@@ -44,6 +44,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_newPayment_user_name"
+                    android:inputType="textCapWords"
+                    android:lines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -56,6 +58,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_newPayment_user_email"
+                    android:inputType="textEmailAddress"
+                    android:lines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -68,6 +72,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_newPayment_user_cellphone"
+                    android:inputType="phone"
+                    android:lines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -108,6 +114,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInput_newPayment_card_number"
+                android:inputType="number"
+                android:lines="1"
+                android:nextFocusDown="@id/textInput_newPayment_card_due_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -125,6 +134,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInput_newPayment_card_due_date"
+                android:inputType="date"
+                android:lines="1"
+                android:nextFocusRight="@id/textInput_newPayment_card_cvv2"
+                android:nextFocusDown="@id/textInput_newPayment_card_cvv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -142,6 +155,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInput_newPayment_card_cvv2"
+                android:inputType="number"
+                android:lines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -161,6 +176,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInput_newPayment_payment_amount"
+                android:inputType="numberDecimal"
+                android:imeOptions="actionSend"
+                android:lines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>

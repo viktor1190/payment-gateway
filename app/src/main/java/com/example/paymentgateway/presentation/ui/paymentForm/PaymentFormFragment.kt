@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -117,6 +118,13 @@ class PaymentFormFragment : Fragment() {
 
         binding.buttonSubmit.setOnClickListener {
             viewModel.submit(name, email, cellphone, cardNumber, cardDueMonthAndYear, cardCvv, amount)
+        }
+        binding.buttonSubmit.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE ->
+                    viewModel.submit(name, email, cellphone, cardNumber, cardDueMonthAndYear, cardCvv, amount)
+            }
+            false
         }
     }
 
