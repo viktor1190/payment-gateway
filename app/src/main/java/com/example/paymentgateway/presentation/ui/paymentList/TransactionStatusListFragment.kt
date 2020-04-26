@@ -26,6 +26,7 @@ class TransactionStatusListFragment: Fragment(), TransactionStatusRecyclerViewAd
     private val factory: ViewModelFactory = ServiceLocator.viewModelFactory
     private val viewModel by viewModels<TransactionStatusListViewModel> { factory }
     private var transactionsAdapter: TransactionStatusRecyclerViewAdapter = TransactionStatusRecyclerViewAdapter(this)
+    private var dialogFragment: TransactionDetailDialogFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +50,12 @@ class TransactionStatusListFragment: Fragment(), TransactionStatusRecyclerViewAd
         viewModel.transactionListLiveData.observe(viewLifecycleOwner, Observer { handleResourceStatus(it) })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dialogFragment?.dismiss()
+        dialogFragment = null
+    }
+
     private fun handleResourceStatus(resource: Resource<List<CheckoutResultModel?>>) {
         when (resource) {
             is Resource.Success -> {
@@ -62,5 +69,9 @@ class TransactionStatusListFragment: Fragment(), TransactionStatusRecyclerViewAd
 
     override fun onListFragmentInteraction(item: CheckoutResultModel?) {
         toast("item selected: ${item?.reference}")
+        if (item != null) {
+            dialogFragment = TransactionDetailDialogFragment.newInstance(item)
+            dialogFragment?.show(parentFragmentManager, TransactionDetailDialogFragment.TAG)
+        }
     }
 }

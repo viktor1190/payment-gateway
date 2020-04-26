@@ -2,6 +2,7 @@ package com.example.paymentgateway.presentation.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.paymentgateway.domain.DeleteTransactionUseCase
 import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
 import com.example.paymentgateway.domain.LoginUseCase
 import com.example.paymentgateway.domain.SendCheckoutUseCase
@@ -17,11 +18,12 @@ import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutR
  * Required given LoginViewModel has a non-empty constructor
  */
 class ViewModelFactory(
-    val loginUseCase: LoginUseCase,
-    val sendCheckoutUseCase: SendCheckoutUseCase,
-    val getTransactionStatusListUseCase: GetTransactionStatusListUseCase,
-    val presenterMapper: CheckoutModelPresenterMapper,
-    val checkoutResponseMapper: CheckoutResultModelPresenterMapper
+    private val loginUseCase: LoginUseCase,
+    private val sendCheckoutUseCase: SendCheckoutUseCase,
+    private val getTransactionStatusListUseCase: GetTransactionStatusListUseCase,
+    private val deleteTransactionUseCase: DeleteTransactionUseCase,
+    private val presenterMapper: CheckoutModelPresenterMapper,
+    private val checkoutResponseMapper: CheckoutResultModelPresenterMapper
 ) :
     ViewModelProvider.Factory {
 
@@ -35,7 +37,7 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(PaymentSummaryViewModel::class.java) ->
                 PaymentSummaryViewModel()
             modelClass.isAssignableFrom(TransactionStatusListViewModel::class.java) ->
-                TransactionStatusListViewModel(getTransactionStatusListUseCase, checkoutResponseMapper)
+                TransactionStatusListViewModel(getTransactionStatusListUseCase, deleteTransactionUseCase, checkoutResponseMapper)
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class")
         } as T

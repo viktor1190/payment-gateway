@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingTop="@dimen/margin_all"
+    android:paddingBottom="@dimen/margin_all"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView_transactionDetailDialog_reference"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView_transactionDetailDialog_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView_transactionDetailDialog_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/button_transactionDetailDialog_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/transactionDetailDialog_action_button_delete" />
+
+    <Button
+        android:id="@+id/button_transactionDetailDialog_cancel"
+        style="@android:style/Widget.Material.Light.ButtonBar.AlertDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel" />
+
+</LinearLayout>

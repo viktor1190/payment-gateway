@@ -39,7 +39,7 @@ class TransactionStatusRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values?.get(position)
         holder.mIdView.text = item?.status
-        holder.mContentView.text = item?.reference
+        holder.mContentView.text = "${item?.total.toString()} ${item?.currency}"
 
         with(holder.mView) {
             tag = item

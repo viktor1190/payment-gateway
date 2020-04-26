@@ -33,4 +33,8 @@
     <string name="paymentForm_invalid_card_due_monthYear">Invalid. Use mm/yyyy format</string>
     <string name="paymentForm_invalid_card_cvv">Invalid CVV</string>
     <string name="paymentForm_invalid_amount">Invalid Amount</string>
+
+    <!-- Payment List -->
+    <string name="transactionDetailDialog_dialogTitle">Transaction Details</string>
+    <string name="transactionDetailDialog_action_button_delete">Delete</string>
 </resources>

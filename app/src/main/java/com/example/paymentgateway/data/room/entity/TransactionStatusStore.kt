@@ -36,4 +36,10 @@ interface TransactionStatusDao {
 
     @Query("SELECT * FROM TransactionStatusStore")
     fun listAll(): LiveData<List<TransactionStatusStore?>>
+
+    /**
+     * Returns the number of rows affected by this query
+     */
+    @Query("DELETE FROM TransactionStatusStore WHERE reference = :reference")
+    fun deleteById(reference: String): Int
 }

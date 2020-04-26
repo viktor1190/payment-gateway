@@ -10,6 +10,7 @@ import com.example.paymentgateway.data.retrofit.util.LiveDataCallAdapterFactory
 import com.example.paymentgateway.data.room.Database
 import com.example.paymentgateway.data.room.TransactionStatusDomainMapper
 import com.example.paymentgateway.data.room.TransactionStatusStoreMapper
+import com.example.paymentgateway.domain.DeleteTransactionUseCase
 import com.example.paymentgateway.domain.GetCurrentUserUseCase
 import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
 import com.example.paymentgateway.domain.LoginUseCase
@@ -34,6 +35,7 @@ object ServiceLocator {
             loginUseCase,
             sendCheckoutUseCase,
             getTransactionStatusListUseCase,
+            deleteTransactionUseCase,
             CheckoutModelPresenterMapper(),
             CheckoutResultModelPresenterMapper()
         )
@@ -45,6 +47,7 @@ object ServiceLocator {
     private val loginUseCase by lazy { LoginUseCase(userRepository) }
     private val sendCheckoutUseCase by lazy { SendCheckoutUseCase(getCurrentUserUseCase, transactionRepository) }
     private val getTransactionStatusListUseCase by lazy { GetTransactionStatusListUseCase(transactionRepository) }
+    private val deleteTransactionUseCase by lazy { DeleteTransactionUseCase(transactionRepository) }
 
     // Repositories
     private val userRepository by lazy { UserRepositoryImpl(LoginDataSource()) }

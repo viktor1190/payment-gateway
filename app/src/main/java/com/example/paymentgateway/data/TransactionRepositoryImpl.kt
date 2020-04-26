@@ -17,6 +17,8 @@ import com.example.paymentgateway.domain.entity.TransactionStatus
 import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.domain.repository.TransactionRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class TransactionRepositoryImpl(
     private val placeToPlayApiService: PlaceToPlayApiService,
@@ -76,5 +78,11 @@ class TransactionRepositoryImpl(
             }
 
         }.asLiveData()
+    }
+
+    override suspend fun deleteLocalTransaction(reference: String) {
+        withContext(Dispatchers.IO) {
+            transactionStatusDao.deleteById(reference)
+        }
     }
 }

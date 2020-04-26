@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.paymentgateway.domain.DeleteTransactionUseCase
 import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
 import com.example.paymentgateway.domain.entity.TransactionStatus
 import com.example.paymentgateway.domain.repository.Resource
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class TransactionStatusListViewModel(
     private val getTransactionStatusListUseCase: GetTransactionStatusListUseCase,
+    private val deleteTransactionUseCase: DeleteTransactionUseCase,
     private val checkoutMapper: CheckoutResultModelPresenterMapper
 ) : ViewModel() {
 
@@ -20,6 +22,12 @@ class TransactionStatusListViewModel(
 
     init {
         fetchTransactionStatusList()
+    }
+
+    fun deleteTransaction(reference: String) {
+        viewModelScope.launch {
+            deleteTransactionUseCase(reference)
+        }
     }
 
     private fun fetchTransactionStatusList() {
