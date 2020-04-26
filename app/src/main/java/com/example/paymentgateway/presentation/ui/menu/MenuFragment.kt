@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.paymentgateway.R
 import com.example.paymentgateway.databinding.FragmentMenuBinding
-import com.example.paymentgateway.presentation.util.toast
 
 class MenuFragment : Fragment() {
 
@@ -39,7 +38,7 @@ class MenuFragment : Fragment() {
             findNavController().navigate(R.id.action_menuFragment_to_paymentFormFragment)
         }
         binding.menuButtonPaymentList.setOnClickListener {
-            toast("Go to see the list of Payments")
+            findNavController().navigate(R.id.action_menuFragment_to_transactionStatusListFragment)
         }
     }
 

@@ -2,12 +2,15 @@ package com.example.paymentgateway.presentation.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
 import com.example.paymentgateway.domain.LoginUseCase
 import com.example.paymentgateway.domain.SendCheckoutUseCase
 import com.example.paymentgateway.presentation.ui.login.LoginViewModel
 import com.example.paymentgateway.presentation.ui.paymentForm.PaymentFormViewModel
 import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelPresenterMapper
+import com.example.paymentgateway.presentation.ui.paymentList.TransactionStatusListViewModel
 import com.example.paymentgateway.presentation.ui.paymentSummary.PaymentSummaryViewModel
+import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModelPresenterMapper
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -16,7 +19,9 @@ import com.example.paymentgateway.presentation.ui.paymentSummary.PaymentSummaryV
 class ViewModelFactory(
     val loginUseCase: LoginUseCase,
     val sendCheckoutUseCase: SendCheckoutUseCase,
-    val presenterMapper: CheckoutModelPresenterMapper
+    val getTransactionStatusListUseCase: GetTransactionStatusListUseCase,
+    val presenterMapper: CheckoutModelPresenterMapper,
+    val checkoutResponseMapper: CheckoutResultModelPresenterMapper
 ) :
     ViewModelProvider.Factory {
 
@@ -29,6 +34,8 @@ class ViewModelFactory(
                 PaymentFormViewModel(sendCheckoutUseCase, presenterMapper)
             modelClass.isAssignableFrom(PaymentSummaryViewModel::class.java) ->
                 PaymentSummaryViewModel()
+            modelClass.isAssignableFrom(TransactionStatusListViewModel::class.java) ->
+                TransactionStatusListViewModel(getTransactionStatusListUseCase, checkoutResponseMapper)
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class")
         } as T

@@ -24,9 +24,13 @@ class TransactionRepositoryImpl(
     private val transactionStatusDao: TransactionStatusDao,
     private val storeMapper: TransactionStatusStoreMapper,
     private val domainMapper: TransactionStatusDomainMapper
-): TransactionRepository {
+) : TransactionRepository {
 
-    override suspend fun sendCheckout(coroutineScope: CoroutineScope, loggedInUser: LoggedInUser, transactionData: Transaction): LiveData<Resource<TransactionStatus>> {
+    override suspend fun sendCheckout(
+        coroutineScope: CoroutineScope,
+        loggedInUser: LoggedInUser,
+        transactionData: Transaction
+    ): LiveData<Resource<TransactionStatus>> {
         return object : NetworkBoundResource<TransactionStatus, StatusResponse>(coroutineScope) {
 
             override suspend fun saveCallResult(item: StatusResponse) {
@@ -38,7 +42,9 @@ class TransactionRepositoryImpl(
             }
 
             override fun loadFromDb(): LiveData<TransactionStatus> {
-                return Transformations.map(transactionStatusDao.load(transactionData.reference)) { domainMapper.map(it) }
+                return Transformations.map(transactionStatusDao.load(transactionData.reference)) { data ->
+                    if (data != null) domainMapper.map(data) else null
+                }
             }
 
             override fun createCall(): LiveData<ApiResponse<StatusResponse>> {
@@ -47,7 +53,28 @@ class TransactionRepositoryImpl(
         }.asLiveData()
     }
 
-    override suspend fun getPaymentStatus(): LiveData<Resource<TransactionStatus>> {
-        TODO("Not yet implemented")
+    override suspend fun getPaymentStatusList(coroutineScope: CoroutineScope): LiveData<Resource<List<TransactionStatus?>>> {
+        return object : NetworkBoundResource<List<TransactionStatus?>, StatusResponse>(coroutineScope) {
+
+            override suspend fun saveCallResult(item: StatusResponse) {
+                TODO("Not yet implemented")
+            }
+
+            override fun shouldFetch(data: List<TransactionStatus?>?): Boolean {
+                return false // TODO victor.valencia this will avoid using the network API so far
+            }
+
+            override fun loadFromDb(): LiveData<List<TransactionStatus?>> {
+                return Transformations.map(transactionStatusDao.listAll()) { list ->
+                    list?.map { storedValue -> if (storedValue != null) domainMapper.map(storedValue) else null }
+                        ?: emptyList<TransactionStatus>()
+                }
+            }
+
+            override fun createCall(): LiveData<ApiResponse<StatusResponse>> {
+                TODO("Not yet implemented")
+            }
+
+        }.asLiveData()
     }
 }

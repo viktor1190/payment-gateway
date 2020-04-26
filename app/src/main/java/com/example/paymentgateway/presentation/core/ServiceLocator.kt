@@ -11,6 +11,7 @@ import com.example.paymentgateway.data.room.Database
 import com.example.paymentgateway.data.room.TransactionStatusDomainMapper
 import com.example.paymentgateway.data.room.TransactionStatusStoreMapper
 import com.example.paymentgateway.domain.GetCurrentUserUseCase
+import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
 import com.example.paymentgateway.domain.LoginUseCase
 import com.example.paymentgateway.domain.SendCheckoutUseCase
 import com.example.paymentgateway.presentation.ApplicationController
@@ -24,14 +25,29 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceLocator {
 
+    // APP context
     lateinit var appContext: ApplicationController
 
-    val viewModelFactory by lazy { ViewModelFactory(loginUseCase, sendCheckoutUseCase, CheckoutModelPresenterMapper()) }
-
+    // Direct Injectors
+    val viewModelFactory by lazy {
+        ViewModelFactory(
+            loginUseCase,
+            sendCheckoutUseCase,
+            getTransactionStatusListUseCase,
+            CheckoutModelPresenterMapper(),
+            CheckoutResultModelPresenterMapper()
+        )
+    }
     val checkoutResultModelPresenterMapper: CheckoutResultModelPresenterMapper by lazy { CheckoutResultModelPresenterMapper() }
 
-    private val userRepository by lazy { UserRepositoryImpl(LoginDataSource()) }
+    // Use Cases
+    private val getCurrentUserUseCase by lazy { GetCurrentUserUseCase(userRepository) }
+    private val loginUseCase by lazy { LoginUseCase(userRepository) }
+    private val sendCheckoutUseCase by lazy { SendCheckoutUseCase(getCurrentUserUseCase, transactionRepository) }
+    private val getTransactionStatusListUseCase by lazy { GetTransactionStatusListUseCase(transactionRepository) }
 
+    // Repositories
+    private val userRepository by lazy { UserRepositoryImpl(LoginDataSource()) }
     private val transactionRepository by lazy {
         TransactionRepositoryImpl(
             placeToPlayService,
@@ -42,12 +58,7 @@ object ServiceLocator {
         )
     }
 
-    private val getCurrentUserUseCase by lazy { GetCurrentUserUseCase(userRepository) }
-
-    private val loginUseCase by lazy { LoginUseCase(userRepository) }
-
-    private val sendCheckoutUseCase by lazy { SendCheckoutUseCase(getCurrentUserUseCase, transactionRepository) }
-
+    // Services
     private val retrofit by lazy {
         val gsonConverter = GsonConverterFactory.create()
 
@@ -62,11 +73,9 @@ object ServiceLocator {
             .client(okHttpClient)
             .build()
     }
-
     private val placeToPlayService by lazy {
         retrofit.create(PlaceToPlayApiService::class.java)
     }
-
     private val database by lazy {
         Room.databaseBuilder(appContext, Database::class.java, "paymentLocalStore.db")
             .fallbackToDestructiveMigration()

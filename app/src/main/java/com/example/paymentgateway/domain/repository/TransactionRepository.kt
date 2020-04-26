@@ -10,5 +10,5 @@ interface TransactionRepository {
 
     suspend fun sendCheckout(coroutineScope: CoroutineScope, loggedInUser: LoggedInUser, transactionData: Transaction): LiveData<Resource<TransactionStatus>>
 
-    suspend fun getPaymentStatus(): LiveData<Resource<TransactionStatus>>
+    suspend fun getPaymentStatusList(coroutineScope: CoroutineScope): LiveData<Resource<List<TransactionStatus?>>>
 }

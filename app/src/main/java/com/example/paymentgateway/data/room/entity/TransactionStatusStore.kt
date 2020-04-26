@@ -32,8 +32,8 @@ interface TransactionStatusDao {
     fun save(transactionStatusStore: TransactionStatusStore)
 
     @Query("SELECT * FROM TransactionStatusStore WHERE reference = :reference")
-    fun load(reference: String): LiveData<TransactionStatusStore>
+    fun load(reference: String): LiveData<TransactionStatusStore?>
 
     @Query("SELECT * FROM TransactionStatusStore")
-    fun listAll(): LiveData<List<TransactionStatusStore>>
+    fun listAll(): LiveData<List<TransactionStatusStore?>>
 }

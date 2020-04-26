@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_menuFragment_to_paymentFormFragment"
             app:destination="@id/paymentFormFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_transactionStatusListFragment"
+            app:destination="@id/transactionStatusListFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFormFragment"
@@ -44,4 +47,9 @@
             android:name="checkoutResult"
             app:argType="com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModel" />
     </fragment>
+    <fragment
+        android:id="@+id/transactionStatusListFragment"
+        android:name="com.example.paymentgateway.presentation.ui.paymentList.TransactionStatusListFragment"
+        android:label="fragment_transaction_status_list"
+        tools:layout="@layout/fragment_transaction_status_list" />
 </navigation>
