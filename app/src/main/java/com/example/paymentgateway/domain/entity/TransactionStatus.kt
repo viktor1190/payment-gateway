@@ -3,11 +3,11 @@ package com.example.paymentgateway.domain.entity
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
-sealed class Status {
-    class Approved: Status()
-    class Pending: Status()
-    open class Failed(val reason: String, val message: String): Status()
-    class Rejected(reason: String, message: String) : Failed(reason, message)
+sealed class Status(val reason: String?, val message: String?) {
+    class Approved: Status(null, null)
+    class Pending: Status(null, null)
+    class Failed(reason: String?, message: String?): Status(reason, message)
+    class Rejected(reason: String?, message: String?) : Status(reason, message)
 }
 
 data class TransactionStatus(

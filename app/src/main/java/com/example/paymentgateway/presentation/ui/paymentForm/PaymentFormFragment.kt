@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.paymentgateway.databinding.FragmentPaymentFormBinding
 import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.core.ServiceLocator
@@ -94,11 +95,18 @@ class PaymentFormFragment : Fragment() {
             }
         })
 
-        viewModel.transactionResult.observe(viewLifecycleOwner, Observer {resource ->
-            when(resource) {
+        viewModel.transactionResult.observe(viewLifecycleOwner, Observer { resource ->
+            when (resource) {
                 is Resource.Success -> {
-                    toast("transaction was created! ${resource.data}")
-                    Timber.d("Transaction created: ${resource.data}")
+                    val transactionResult = resource.data
+                    Timber.d("transaction status received: ${transactionResult}")
+                    if (transactionResult != null) {
+                        val mapper = ServiceLocator.checkoutResultModelPresenterMapper
+                        val action = PaymentFormFragmentDirections.actionPaymentFormFragmentToPaymentSummaryFragment(
+                            mapper.mapFromEntity(transactionResult)
+                        )
+                        findNavController().navigate(action)
+                    }
                 }
                 is Resource.Loading -> Timber.d("LOADING payment transaction") // TODO victor.valencia show the progress dialog
                 is Resource.Error -> {

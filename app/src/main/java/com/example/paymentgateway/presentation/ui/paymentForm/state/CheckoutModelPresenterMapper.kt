@@ -22,4 +22,8 @@ class CheckoutModelPresenterMapper: PresentationModelMapper<CheckoutModel, Trans
             payerMobile = model.cellphone
         )
     }
+
+    override fun mapFromEntity(entity: Transaction): CheckoutModel {
+        TODO("Not yet implemented")
+    }
 }

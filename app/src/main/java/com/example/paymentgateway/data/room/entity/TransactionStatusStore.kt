@@ -15,6 +15,8 @@ data class TransactionStatusStore (
     @PrimaryKey val reference: String,
     val internalReference: BigDecimal?,
     val status: String?,
+    val reason: String?,
+    val message: String?,
     val currency: String,
     val total: Float,
     val paymentMethod: String?,

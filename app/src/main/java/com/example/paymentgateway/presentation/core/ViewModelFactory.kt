@@ -7,6 +7,7 @@ import com.example.paymentgateway.domain.SendCheckoutUseCase
 import com.example.paymentgateway.presentation.ui.login.LoginViewModel
 import com.example.paymentgateway.presentation.ui.paymentForm.PaymentFormViewModel
 import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelPresenterMapper
+import com.example.paymentgateway.presentation.ui.paymentSummary.PaymentSummaryViewModel
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -26,6 +27,8 @@ class ViewModelFactory(
                 LoginViewModel(loginUseCase)
             modelClass.isAssignableFrom(PaymentFormViewModel::class.java) ->
                 PaymentFormViewModel(sendCheckoutUseCase, presenterMapper)
+            modelClass.isAssignableFrom(PaymentSummaryViewModel::class.java) ->
+                PaymentSummaryViewModel()
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class")
         } as T

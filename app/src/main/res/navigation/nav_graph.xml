@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
+            app:destination="@id/menuFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
@@ -27,5 +28,20 @@
         android:id="@+id/paymentFormFragment"
         android:name="com.example.paymentgateway.presentation.ui.paymentForm.PaymentFormFragment"
         android:label="fragment_payment_form"
-        tools:layout="@layout/fragment_payment_form" />
+        tools:layout="@layout/fragment_payment_form" >
+        <action
+            android:id="@+id/action_paymentFormFragment_to_paymentSummaryFragment"
+            app:destination="@id/paymentSummaryFragment"
+            app:popUpTo="@id/menuFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentSummaryFragment"
+        android:name="com.example.paymentgateway.presentation.ui.paymentSummary.PaymentSummaryFragment"
+        android:label="fragment_payment_summary"
+        tools:layout="@layout/fragment_payment_summary" >
+        <argument
+            android:name="checkoutResult"
+            app:argType="com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModel" />
+    </fragment>
 </navigation>

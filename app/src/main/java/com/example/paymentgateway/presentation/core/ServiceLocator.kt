@@ -15,6 +15,7 @@ import com.example.paymentgateway.domain.LoginUseCase
 import com.example.paymentgateway.domain.SendCheckoutUseCase
 import com.example.paymentgateway.presentation.ApplicationController
 import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelPresenterMapper
+import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModelPresenterMapper
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -26,6 +27,8 @@ object ServiceLocator {
     lateinit var appContext: ApplicationController
 
     val viewModelFactory by lazy { ViewModelFactory(loginUseCase, sendCheckoutUseCase, CheckoutModelPresenterMapper()) }
+
+    val checkoutResultModelPresenterMapper: CheckoutResultModelPresenterMapper by lazy { CheckoutResultModelPresenterMapper() }
 
     private val userRepository by lazy { UserRepositoryImpl(LoginDataSource()) }
 

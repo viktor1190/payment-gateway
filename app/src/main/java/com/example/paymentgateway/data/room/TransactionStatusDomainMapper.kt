@@ -10,10 +10,10 @@ class TransactionStatusDomainMapper : DataModelMapper<TransactionStatus?, Transa
     override fun map(entity: TransactionStatusStore?): TransactionStatus? {
         if (entity == null) return null
         val status = when (entity.status) {
-            Status.Approved::class.simpleName -> Status.Approved()
-            Status.Pending::class.simpleName -> Status.Pending()
-            Status.Rejected::class.simpleName -> Status.Rejected("", "") // TODO victor. valencia serialize this
-            else -> Status.Failed("", "")
+            Status.Approved::class.simpleName?.toUpperCase() -> Status.Approved()
+            Status.Pending::class.simpleName?.toUpperCase() -> Status.Pending()
+            Status.Failed::class.simpleName?.toUpperCase() -> Status.Failed(entity.reason, entity.message)
+            else -> Status.Rejected(entity.reason, entity.message)
         }
         return TransactionStatus(
             entity.reference,

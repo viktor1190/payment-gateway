@@ -12,6 +12,8 @@ class TransactionStatusStoreMapper: DataModelMapper<TransactionStatusStore, Stat
             entity.reference,
             entity.internalReference,
             entity.status.status,
+            entity.status.reason,
+            entity.status.message,
             entity.amount.currency,
             entity.amount.total,
             entity.paymentMethod,
