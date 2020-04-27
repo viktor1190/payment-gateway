@@ -18,6 +18,6 @@ data class TransactionStatus(
     val total: Float,
     val franchiseName: String?,
     val authorization: String?,
-    val receipt: String,
+    val receipt: String?,
     val lastUpdate: ZonedDateTime
 )

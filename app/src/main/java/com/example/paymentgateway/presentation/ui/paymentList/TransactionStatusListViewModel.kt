@@ -10,6 +10,7 @@ import com.example.paymentgateway.domain.entity.TransactionStatus
 import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModel
 import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModelPresenterMapper
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class TransactionStatusListViewModel(
@@ -21,6 +22,10 @@ class TransactionStatusListViewModel(
     lateinit var transactionListLiveData: LiveData<Resource<List<CheckoutResultModel?>>>
 
     init {
+        fetchTransactionStatusList()
+    }
+
+    fun refreshPendingTransactions() {
         fetchTransactionStatusList()
     }
 
@@ -48,6 +53,7 @@ class TransactionStatusListViewModel(
                         else -> Resource.Loading<List<CheckoutResultModel?>>(emptyList())
                     }
                 }
+            delay(2000) // TODO victor.valencia check how to sort this out
         }
     }
 }

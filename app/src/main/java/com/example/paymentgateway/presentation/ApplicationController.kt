@@ -13,7 +13,9 @@ class ApplicationController: Application() {
         ServiceLocator.appContext = this
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-            Stetho.initializeWithDefaults(this);
+            Stetho.initializeWithDefaults(this)
+
         }
+        System.setProperty("kotlinx.coroutines.debug", if (BuildConfig.DEBUG) "on" else "off")
     }
 }

@@ -1,4 +1,4 @@
-package com.example.paymentgateway.data.retrofit.util
+package com.example.paymentgateway.data.mapper
 
 import com.example.paymentgateway.data.core.DataModelMapper
 import com.example.paymentgateway.data.retrofit.model.Amount
@@ -7,10 +7,11 @@ import com.example.paymentgateway.data.retrofit.model.CheckoutRequest
 import com.example.paymentgateway.data.retrofit.model.Instrument
 import com.example.paymentgateway.data.retrofit.model.Payment
 import com.example.paymentgateway.data.retrofit.model.Person
+import com.example.paymentgateway.data.retrofit.util.AuthenticationFactory
 import com.example.paymentgateway.domain.entity.LoggedInUser
 import com.example.paymentgateway.domain.entity.Transaction
 
-class CheckoutRequestMapper : DataModelMapper<CheckoutRequest, Pair<LoggedInUser, Transaction>> {
+class CheckoutRequestToTransactionDomainModelMapper : DataModelMapper<Pair<LoggedInUser, Transaction>, CheckoutRequest> {
 
     override fun map(entity: Pair<LoggedInUser, Transaction>): CheckoutRequest {
         val user = entity.first

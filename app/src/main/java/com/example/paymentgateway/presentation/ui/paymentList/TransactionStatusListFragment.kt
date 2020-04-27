@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.paymentgateway.databinding.FragmentTransactionStatusListBinding
 import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.core.ServiceLocator
@@ -17,7 +16,7 @@ import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutR
 import com.example.paymentgateway.presentation.util.toast
 import timber.log.Timber
 
-class TransactionStatusListFragment: Fragment(), TransactionStatusRecyclerViewAdapter.OnListFragmentInteractionListener {
+class TransactionStatusListFragment : Fragment(), TransactionStatusRecyclerViewAdapter.OnListFragmentInteractionListener {
 
     // Binding
     private var _binding: FragmentTransactionStatusListBinding? = null
@@ -35,14 +34,21 @@ class TransactionStatusListFragment: Fragment(), TransactionStatusRecyclerViewAd
         _binding = FragmentTransactionStatusListBinding.inflate(inflater)
         val view = binding.root
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = transactionsAdapter
-            }
-        }
+        setupView()
         return view
+    }
+
+    private fun setupView() {
+        // Set the adapter
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = transactionsAdapter
+        }
+
+        binding.swipeRefreshLayout.isEnabled = false
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refreshPendingTransactions()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,11 +65,15 @@ class TransactionStatusListFragment: Fragment(), TransactionStatusRecyclerViewAd
     private fun handleResourceStatus(resource: Resource<List<CheckoutResultModel?>>) {
         when (resource) {
             is Resource.Success -> {
+                binding.swipeRefreshLayout.isRefreshing = false
                 transactionsAdapter.values = resource.data
                 transactionsAdapter.notifyDataSetChanged()
             }
-            is Resource.Loading -> Timber.v("Loading list") // TODO victor.valencia show a progress dialog
-            is Resource.Error -> Timber.e(resource.exception, resource.message)
+            is Resource.Loading -> binding.swipeRefreshLayout.isRefreshing = true
+            is Resource.Error -> {
+                binding.swipeRefreshLayout.isRefreshing = false
+                Timber.e(resource.exception, resource.message)
+            }
         }
     }
 

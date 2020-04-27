@@ -10,7 +10,7 @@ interface TransactionRepository {
 
     suspend fun sendCheckout(coroutineScope: CoroutineScope, loggedInUser: LoggedInUser, transactionData: Transaction): LiveData<Resource<TransactionStatus>>
 
-    suspend fun getPaymentStatusList(coroutineScope: CoroutineScope): LiveData<Resource<List<TransactionStatus?>>>
+    suspend fun getPaymentStatusList(coroutineScope: CoroutineScope, loggedInUser: LoggedInUser): LiveData<Resource<List<TransactionStatus?>>>
 
     suspend fun deleteLocalTransaction(reference: String)
 }

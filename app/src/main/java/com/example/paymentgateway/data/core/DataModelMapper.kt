@@ -1,6 +1,6 @@
 package com.example.paymentgateway.data.core
 
-interface DataModelMapper<out T, in I> {
+interface DataModelMapper<in I, out T> {
 
-    fun map(entity: I): T
+    fun map(model: I): T
 }

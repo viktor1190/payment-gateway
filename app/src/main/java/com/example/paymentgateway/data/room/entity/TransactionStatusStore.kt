@@ -22,7 +22,7 @@ data class TransactionStatusStore (
     val paymentMethod: String?,
     val franchiseName: String?,
     val authorization: String?,
-    val receipt: String,
+    val receipt: String?,
     val lastUpdate: ZonedDateTime
 )
 

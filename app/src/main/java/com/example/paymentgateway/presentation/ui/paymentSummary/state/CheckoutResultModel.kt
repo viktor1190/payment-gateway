@@ -13,7 +13,7 @@ data class CheckoutResultModel(
     val total: Float,
     val franchiseName: String?,
     val authorization: String?,
-    val receipt: String,
+    val receipt: String?,
     val lastUpdate: String
 ): Parcelable {
 
@@ -27,7 +27,7 @@ data class CheckoutResultModel(
         parcel.readFloat(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()!!,
+        parcel.readString(),
         parcel.readString()!!
     )
 

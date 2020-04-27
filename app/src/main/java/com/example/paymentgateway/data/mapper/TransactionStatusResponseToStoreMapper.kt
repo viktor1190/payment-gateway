@@ -1,11 +1,11 @@
-package com.example.paymentgateway.data.room
+package com.example.paymentgateway.data.mapper
 
 import com.example.paymentgateway.data.core.DataModelMapper
 import com.example.paymentgateway.data.core.toZonedDateTime
 import com.example.paymentgateway.data.retrofit.model.StatusResponse
 import com.example.paymentgateway.data.room.entity.TransactionStatusStore
 
-class TransactionStatusStoreMapper: DataModelMapper<TransactionStatusStore, StatusResponse> {
+class TransactionStatusResponseToStoreMapper: DataModelMapper<StatusResponse, TransactionStatusStore> {
 
     override fun map(entity: StatusResponse): TransactionStatusStore {
         return TransactionStatusStore(

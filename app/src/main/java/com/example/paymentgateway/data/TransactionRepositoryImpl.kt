@@ -1,14 +1,16 @@
 package com.example.paymentgateway.data
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.example.paymentgateway.data.core.NetworkBoundResource
+import com.example.paymentgateway.data.mapper.CheckoutRequestToTransactionDomainModelMapper
+import com.example.paymentgateway.data.mapper.TransactionStatusResponseToDomainMapper
+import com.example.paymentgateway.data.mapper.TransactionStatusResponseToStoreMapper
+import com.example.paymentgateway.data.mapper.TransactionStatusToStoreMapper
 import com.example.paymentgateway.data.retrofit.PlaceToPlayApiService
 import com.example.paymentgateway.data.retrofit.model.StatusResponse
 import com.example.paymentgateway.data.retrofit.util.ApiResponse
-import com.example.paymentgateway.data.retrofit.util.CheckoutRequestMapper
-import com.example.paymentgateway.data.room.TransactionStatusDomainMapper
-import com.example.paymentgateway.data.room.TransactionStatusStoreMapper
 import com.example.paymentgateway.data.room.entity.TransactionStatusDao
 import com.example.paymentgateway.domain.entity.LoggedInUser
 import com.example.paymentgateway.domain.entity.Status
@@ -22,10 +24,11 @@ import kotlinx.coroutines.withContext
 
 class TransactionRepositoryImpl(
     private val placeToPlayApiService: PlaceToPlayApiService,
-    private val apiRequestMapper: CheckoutRequestMapper,
     private val transactionStatusDao: TransactionStatusDao,
-    private val storeMapper: TransactionStatusStoreMapper,
-    private val domainMapper: TransactionStatusDomainMapper
+    private val transactionRequestToDomainMapper: CheckoutRequestToTransactionDomainModelMapper,
+    private val transactionResponseToStoreMapper: TransactionStatusResponseToStoreMapper,
+    private val mapper: TransactionStatusResponseToDomainMapper,
+    private val transactionToStoreMapper: TransactionStatusToStoreMapper
 ) : TransactionRepository {
 
     override suspend fun sendCheckout(
@@ -36,45 +39,64 @@ class TransactionRepositoryImpl(
         return object : NetworkBoundResource<TransactionStatus, StatusResponse>(coroutineScope) {
 
             override suspend fun saveCallResult(item: StatusResponse) {
-                transactionStatusDao.save(storeMapper.map(item))
+                transactionStatusDao.save(transactionResponseToStoreMapper.map(item))
             }
 
-            override fun shouldFetch(data: TransactionStatus?): Boolean {
-                return data == null || data.status !is Status.Approved
+            override fun shouldFetch(data: TransactionStatus?): Int {
+                return if (data == null) 1 else 0
             }
 
             override fun loadFromDb(): LiveData<TransactionStatus> {
                 return Transformations.map(transactionStatusDao.load(transactionData.reference)) { data ->
-                    if (data != null) domainMapper.map(data) else null
+                    if (data != null) transactionToStoreMapper.map(data) else null
                 }
             }
 
             override fun createCall(): LiveData<ApiResponse<StatusResponse>> {
-                return placeToPlayApiService.processTransaction(apiRequestMapper.map(Pair(loggedInUser, transactionData)))
+                return placeToPlayApiService.processTransaction(transactionRequestToDomainMapper.map(Pair(loggedInUser, transactionData)))
             }
         }.asLiveData()
     }
 
-    override suspend fun getPaymentStatusList(coroutineScope: CoroutineScope): LiveData<Resource<List<TransactionStatus?>>> {
+    override suspend fun getPaymentStatusList(
+        coroutineScope: CoroutineScope,
+        loggedInUser: LoggedInUser
+    ): LiveData<Resource<List<TransactionStatus?>>> {
         return object : NetworkBoundResource<List<TransactionStatus?>, StatusResponse>(coroutineScope) {
 
+            private var pendingTransactionsList: MutableList<TransactionStatus> = mutableListOf()
+
             override suspend fun saveCallResult(item: StatusResponse) {
-                TODO("Not yet implemented")
+                transactionStatusDao.save(transactionResponseToStoreMapper.map(item))
             }
 
-            override fun shouldFetch(data: List<TransactionStatus?>?): Boolean {
-                return false // TODO victor.valencia this will avoid using the network API so far
+            override fun shouldFetch(data: List<TransactionStatus?>?): Int {
+                data?.let {
+                    val pendingStatus: List<TransactionStatus> = data.requireNoNulls().filter { it.status is Status.Pending }
+                    pendingTransactionsList.addAll(pendingStatus)
+                }
+                return pendingTransactionsList.size
             }
 
             override fun loadFromDb(): LiveData<List<TransactionStatus?>> {
                 return Transformations.map(transactionStatusDao.listAll()) { list ->
-                    list?.map { storedValue -> if (storedValue != null) domainMapper.map(storedValue) else null }
+                    list?.map { storedValue -> if (storedValue != null) transactionToStoreMapper.map(storedValue) else null }
                         ?: emptyList<TransactionStatus>()
                 }
             }
 
             override fun createCall(): LiveData<ApiResponse<StatusResponse>> {
-                TODO("Not yet implemented")
+                // In order to update multiple transaction at once, we need to merge multiple API calls into one LiveData object:
+                val mediator = MediatorLiveData<ApiResponse<StatusResponse>>()
+                pendingTransactionsList.forEach { transactionStatus ->
+                    val request = mapper.map(Pair(loggedInUser, transactionStatus))
+                    if (request != null) {
+                        mediator.addSource(placeToPlayApiService.getTransactionStatus(request)) { apiResponse ->
+                            mediator.value = apiResponse
+                        }
+                    }
+                }
+                return mediator
             }
 
         }.asLiveData()

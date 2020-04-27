@@ -52,8 +52,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>
         val dbSource = loadFromDb()
         result.addSource(dbSource) { data ->
             result.removeSource(dbSource)
-            if (shouldFetch(data)) {
-                fetchFromNetwork(dbSource)
+            val amountOfDataToFetch = shouldFetch(data)
+            if (amountOfDataToFetch > 0) {
+                fetchFromNetwork(dbSource, amountOfDataToFetch)
             } else {
                 result.addSource(dbSource) { newData ->
                     setValue(Resource.Success(newData))
@@ -69,31 +70,39 @@ abstract class NetworkBoundResource<ResultType, RequestType>
         }
     }
 
-    private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
+    private fun fetchFromNetwork(dbSource: LiveData<ResultType>, amountOfDataToFetch: Int) {
+        var pendingDataAmount = amountOfDataToFetch
         val apiResponse = createCall()
         // we re-attach dbSource as a new source, it will dispatch its latest value quickly
         result.addSource(dbSource) { newData ->
             setValue(Resource.Loading(newData))
         }
         result.addSource(apiResponse) { response ->
-            result.removeSource(apiResponse)
+            if (pendingDataAmount >= 1) {
+                pendingDataAmount = 0
+                result.removeSource(apiResponse)
+            }
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
                     coroutineScope.launch(Dispatchers.IO) {
                         saveCallResult(processResponse(response))
-                        withContext(Dispatchers.Main) {
-                            // we specially request a new live data,
-                            // otherwise we will get immediately last cached value,
-                            // which may not be updated with latest results received from network.
-                            result.addSource(loadFromDb()) { newData ->
-                                setValue(Resource.Success(newData))
+                        if (pendingDataAmount == 0) {
+                            withContext(Dispatchers.Main) {
+                                // we specially request a new live data,
+                                // otherwise we will get immediately last cached value,
+                                // which may not be updated with latest results received from network.
+                                result.addSource(loadFromDb()) { newData ->
+                                    setValue(Resource.Success(newData))
+                                }
                             }
                         }
                     }
                 }
                 is ApiErrorResponse -> {
+                    pendingDataAmount = 0
                     onFetchFailed()
+                    result.removeSource(apiResponse)
                     result.addSource(dbSource) { newData ->
                         setValue(Resource.Error(NetworkException(response.errorMessage), response.errorMessage, newData))
                     }
@@ -113,7 +122,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
     protected abstract suspend fun saveCallResult(item: RequestType)
 
     @MainThread
-    protected abstract fun shouldFetch(data: ResultType?): Boolean
+    protected abstract fun shouldFetch(data: ResultType?): Int
 
     @MainThread
     protected abstract fun loadFromDb(): LiveData<ResultType>

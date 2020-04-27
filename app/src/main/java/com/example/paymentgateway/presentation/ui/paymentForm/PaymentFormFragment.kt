@@ -129,7 +129,7 @@ class PaymentFormFragment : Fragment() {
         }
         binding.buttonSubmit.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
-                EditorInfo.IME_ACTION_DONE ->
+                EditorInfo.IME_ACTION_SEND ->
                     viewModel.submit(name, email, cellphone, cardNumber, cardDueMonthAndYear, cardCvv, amount)
             }
             false

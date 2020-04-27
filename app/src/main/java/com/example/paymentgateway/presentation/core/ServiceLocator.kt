@@ -4,12 +4,14 @@ import androidx.room.Room
 import com.example.paymentgateway.data.LoginDataSource
 import com.example.paymentgateway.data.TransactionRepositoryImpl
 import com.example.paymentgateway.data.UserRepositoryImpl
+import com.example.paymentgateway.data.mapper.CheckoutRequestToTransactionDomainModelMapper
+import com.example.paymentgateway.data.mapper.StatusToDomainModelMapper
+import com.example.paymentgateway.data.mapper.TransactionStatusResponseToDomainMapper
+import com.example.paymentgateway.data.mapper.TransactionStatusResponseToStoreMapper
+import com.example.paymentgateway.data.mapper.TransactionStatusToStoreMapper
 import com.example.paymentgateway.data.retrofit.PlaceToPlayApiService
-import com.example.paymentgateway.data.retrofit.util.CheckoutRequestMapper
 import com.example.paymentgateway.data.retrofit.util.LiveDataCallAdapterFactory
 import com.example.paymentgateway.data.room.Database
-import com.example.paymentgateway.data.room.TransactionStatusDomainMapper
-import com.example.paymentgateway.data.room.TransactionStatusStoreMapper
 import com.example.paymentgateway.domain.DeleteTransactionUseCase
 import com.example.paymentgateway.domain.GetCurrentUserUseCase
 import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
@@ -46,7 +48,7 @@ object ServiceLocator {
     private val getCurrentUserUseCase by lazy { GetCurrentUserUseCase(userRepository) }
     private val loginUseCase by lazy { LoginUseCase(userRepository) }
     private val sendCheckoutUseCase by lazy { SendCheckoutUseCase(getCurrentUserUseCase, transactionRepository) }
-    private val getTransactionStatusListUseCase by lazy { GetTransactionStatusListUseCase(transactionRepository) }
+    private val getTransactionStatusListUseCase by lazy { GetTransactionStatusListUseCase(getCurrentUserUseCase, transactionRepository) }
     private val deleteTransactionUseCase by lazy { DeleteTransactionUseCase(transactionRepository) }
 
     // Repositories
@@ -54,10 +56,11 @@ object ServiceLocator {
     private val transactionRepository by lazy {
         TransactionRepositoryImpl(
             placeToPlayService,
-            CheckoutRequestMapper(),
             database.transactionStatusDao(),
-            TransactionStatusStoreMapper(),
-            TransactionStatusDomainMapper()
+            CheckoutRequestToTransactionDomainModelMapper(),
+            TransactionStatusResponseToStoreMapper(),
+            TransactionStatusResponseToDomainMapper(),
+            TransactionStatusToStoreMapper(StatusToDomainModelMapper())
         )
     }
 
