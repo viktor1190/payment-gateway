@@ -134,7 +134,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInput_newPayment_card_due_date"
-                android:inputType="date"
+                android:inputType="date|text"
                 android:lines="1"
                 android:nextFocusRight="@id/textInput_newPayment_card_cvv2"
                 android:nextFocusDown="@id/textInput_newPayment_card_cvv2"

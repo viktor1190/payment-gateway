@@ -1,11 +1,13 @@
 package com.example.paymentgateway.data.core
 
+import java.math.BigInteger
+import java.security.SecureRandom
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 fun generateRandomReference(): String {
-    return "TEST-" + ZonedDateTime.now().toIsoDateString()
+    return "TEST-" + BigInteger(8, SecureRandom()).toString()
 }
 
 fun String.toZonedDateTime(): ZonedDateTime {

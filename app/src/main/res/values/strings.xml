@@ -45,4 +45,5 @@
     <string name="default_test_username">6dd490faf9cb87a9862245da41170ff2</string>
     <string name="default_test_password">024h1IlD</string>
     <string name="paymentFragment_checkout_genericError">Checkout Faile: %1$s</string>
+    <string name="paymentList_no_data">NO DATA TO SHOW</string>
 </resources>

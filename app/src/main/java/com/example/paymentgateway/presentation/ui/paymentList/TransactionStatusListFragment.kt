@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.paymentgateway.databinding.FragmentTransactionStatusListBinding
 import com.example.paymentgateway.domain.repository.Resource
@@ -42,6 +43,7 @@ class TransactionStatusListFragment : Fragment(), TransactionStatusRecyclerViewA
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = transactionsAdapter
+            itemAnimator = DefaultItemAnimator()
         }
 
         binding.swipeRefreshLayout.isEnabled = false
@@ -55,16 +57,11 @@ class TransactionStatusListFragment : Fragment(), TransactionStatusRecyclerViewA
         viewModel.transactionListLiveData.observe(viewLifecycleOwner, Observer { handleResourceStatus(it) })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        dialogFragment?.dismiss()
-        dialogFragment = null
-    }
-
     private fun handleResourceStatus(resource: Resource<List<CheckoutResultModel?>>) {
         when (resource) {
             is Resource.Success -> {
                 binding.swipeRefreshLayout.isRefreshing = false
+                binding.recyclerViewNoDataPlaceholder.visibility = if (resource.data.isNullOrEmpty()) View.VISIBLE else View.GONE
                 transactionsAdapter.values = resource.data
                 transactionsAdapter.notifyDataSetChanged()
             }
