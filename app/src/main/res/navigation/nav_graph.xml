@@ -51,5 +51,5 @@
         android:id="@+id/transactionStatusListFragment"
         android:name="com.example.paymentgateway.presentation.ui.paymentList.TransactionStatusListFragment"
         android:label="fragment_transaction_status_list"
-        tools:layout="@layout/fragment_transaction_status_list" />
+        tools:layout="@layout/fragment_transaction_status_item" />
 </navigation>
