@@ -10,29 +10,30 @@
 
     <TextView
         android:id="@+id/textview_pyamentSummary_state"
+        style="@style/PaymentSummary_State"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_all"
-        android:layout_marginTop="@dimen/margin_all"
-        android:layout_marginEnd="@dimen/margin_all"
-        tools:text="STATE"
+        android:fontFamily="@font/roboto_mono_thin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="STATE" />
 
     <TextView
         android:id="@+id/textview_pyamentSummary_headers"
+        style="@style/PaymentSummary_Keys"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/margin_all"
-        android:layout_marginTop="@dimen/margin_all"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="@dimen/margin_all"
-        tools:text="Headers:"
+        android:textAlignment="textEnd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_pyamentSummary_state" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_pyamentSummary_state"
+        tools:text="Headers:" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -43,16 +44,17 @@
 
     <TextView
         android:id="@+id/textview_pyamentSummary_values"
+        style="@style/PaymentSummary_Values"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/margin_all"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="@dimen/margin_all"
         android:layout_marginBottom="@dimen/margin_all"
-        tools:text="Values"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/textview_pyamentSummary_state" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_pyamentSummary_state"
+        tools:text="Values" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

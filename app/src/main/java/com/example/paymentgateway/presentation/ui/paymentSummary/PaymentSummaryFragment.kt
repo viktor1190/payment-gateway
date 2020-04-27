@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.paymentgateway.databinding.FragmentPaymentSummaryBinding
+import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultDecorator
 
 class PaymentSummaryFragment : Fragment() {
 
@@ -26,8 +27,10 @@ class PaymentSummaryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val checkoutResult = args.checkoutResult
+        val checkoutHelper = CheckoutResultDecorator(checkoutResult)
         binding.textviewPyamentSummaryState.text = checkoutResult.status
-        binding.textviewPyamentSummaryHeaders.text = checkoutResult.toString()
+        binding.textviewPyamentSummaryHeaders.text = checkoutHelper.getHeaders()
+        binding.textviewPyamentSummaryValues.text = checkoutHelper.getValues()
     }
 
     override fun onDestroyView() {

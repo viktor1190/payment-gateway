@@ -1,11 +1,26 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorPrimaryVariant">#000000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#2962FF</item>
+        <item name="colorSecondaryVariant">#0039CB</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorError">#F44336</item>
+        <item name="colorOnError">#FFFFFF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#212121</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorOnBackground">#212121</item>
+        <item name="fontFamily">@font/roboto_mono_thin</item>
+        <item name="android:fontFamily">@font/roboto_mono_thin</item>
+
         <item name="dialogTheme">@style/DialogStyle</item>
         <item name="alertDialogTheme">@style/DialogStyle</item>
     </style>
@@ -13,6 +28,27 @@
     <style name="DialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowMinWidthMajor">97%</item>
         <item name="android:windowMinWidthMinor">97%</item>
+    </style>
+
+    <style name="PaymentSummary_State" parent="TextAppearance.AppCompat.Display1">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:paddingStart">@dimen/margin_all</item>
+        <item name="android:paddingEnd">@dimen/margin_all</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/background</item>
+    </style>
+
+    <style name="PaymentSummary_Values" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:lineSpacingExtra">10dp</item>
+    </style>
+    <style name="PaymentSummary_Keys" parent="PaymentSummary_Values">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/dark</item>
     </style>
 
 </resources>
