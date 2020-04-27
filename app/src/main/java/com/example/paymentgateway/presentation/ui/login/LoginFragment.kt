@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.paymentgateway.R
@@ -25,7 +25,7 @@ class LoginFragment: Fragment() {
     private val binding get() = _binding!!
 
     private val factory: ViewModelFactory = ServiceLocator.viewModelFactory
-    private val loginViewModel by viewModels<LoginViewModel> { factory }
+    private val loginViewModel by activityViewModels<LoginViewModel> { factory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +71,6 @@ class LoginFragment: Fragment() {
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
             }
-            // TODO: victor.valencia setResult(Activity.RESULT_OK) and launch the next activity
         })
 
         binding.username.afterTextChanged {

@@ -36,6 +36,7 @@ object ServiceLocator {
     val viewModelFactory by lazy {
         ViewModelFactory(
             loginUseCase,
+            logoutUseCase,
             sendCheckoutUseCase,
             getTransactionStatusListUseCase,
             deleteTransactionUseCase,
@@ -47,8 +48,8 @@ object ServiceLocator {
 
     // Use Cases
     private val getCurrentUserUseCase by lazy { GetCurrentUserUseCase(userRepository) }
-    val logoutUseCase by lazy { LogoutUseCase(userRepository) }
     private val loginUseCase by lazy { LoginUseCase(userRepository) }
+    private val logoutUseCase by lazy { LogoutUseCase(userRepository) }
     private val sendCheckoutUseCase by lazy { SendCheckoutUseCase(getCurrentUserUseCase, transactionRepository) }
     private val getTransactionStatusListUseCase by lazy { GetTransactionStatusListUseCase(getCurrentUserUseCase, transactionRepository) }
     private val deleteTransactionUseCase by lazy { DeleteTransactionUseCase(transactionRepository) }

@@ -10,6 +10,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="logout_message">"The user was logged out"</string>
 
     <!-- Main Menu -->
     <string name="menu_newPayment_button">Pay</string>
@@ -34,6 +35,7 @@
     <string name="paymentForm_invalid_card_due_monthYear">Invalid. Use mm/yyyy format</string>
     <string name="paymentForm_invalid_card_cvv">Invalid CVV</string>
     <string name="paymentForm_invalid_amount">Invalid Amount</string>
+    <string name="paymentForm_progress_dialog_title">Sending checkout…</string>
 
     <!-- Payment List -->
     <string name="transactionDetailDialog_dialogTitle">Transaction Details</string>

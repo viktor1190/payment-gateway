@@ -24,6 +24,6 @@ class CheckoutModelPresenterMapper: PresentationModelMapper<CheckoutModel, Trans
     }
 
     override fun mapFromEntity(entity: Transaction): CheckoutModel {
-        TODO("Not yet implemented")
+        TODO("Not needed to implement")
     }
 }

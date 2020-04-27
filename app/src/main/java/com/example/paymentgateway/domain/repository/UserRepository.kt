@@ -6,7 +6,7 @@ interface UserRepository {
 
     suspend fun login(userName: String, userPassword: String): Resource<LoggedInUser>
 
-    suspend fun loadUser(): Resource<LoggedInUser>
+    fun loadUser(): Resource<LoggedInUser>
 
-    suspend fun logout(): Resource<Nothing?>
+    fun logout(): Resource<Nothing?>
 }

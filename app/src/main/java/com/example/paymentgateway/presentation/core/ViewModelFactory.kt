@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.paymentgateway.domain.DeleteTransactionUseCase
 import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
 import com.example.paymentgateway.domain.LoginUseCase
+import com.example.paymentgateway.domain.LogoutUseCase
 import com.example.paymentgateway.domain.SendCheckoutUseCase
 import com.example.paymentgateway.presentation.ui.login.LoginViewModel
 import com.example.paymentgateway.presentation.ui.paymentForm.PaymentFormViewModel
@@ -18,6 +19,7 @@ import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutR
  */
 class ViewModelFactory(
     private val loginUseCase: LoginUseCase,
+    private val logoutUseCase: LogoutUseCase,
     private val sendCheckoutUseCase: SendCheckoutUseCase,
     private val getTransactionStatusListUseCase: GetTransactionStatusListUseCase,
     private val deleteTransactionUseCase: DeleteTransactionUseCase,
@@ -30,7 +32,7 @@ class ViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(LoginViewModel::class.java) ->
-                LoginViewModel(loginUseCase)
+                LoginViewModel(loginUseCase, logoutUseCase)
             modelClass.isAssignableFrom(PaymentFormViewModel::class.java) ->
                 PaymentFormViewModel(sendCheckoutUseCase, presenterMapper)
             modelClass.isAssignableFrom(TransactionStatusListViewModel::class.java) ->

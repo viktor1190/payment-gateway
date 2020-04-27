@@ -1,5 +1,6 @@
 package com.example.paymentgateway.presentation.ui.paymentForm
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.paymentgateway.R
 import com.example.paymentgateway.databinding.FragmentPaymentFormBinding
 import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.core.ServiceLocator
@@ -47,6 +49,8 @@ class PaymentFormFragment : Fragment() {
     private val amount: String
         get() = binding.textInputNewPaymentPaymentAmount.text.toString()
 
+    private lateinit var progressDialog: ProgressDialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,11 +67,13 @@ class PaymentFormFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        progressDialog.dismiss()
     }
 
     private fun setupView() {
         viewModel.paymentFormState.observe(viewLifecycleOwner, Observer {
             val paymentState = it ?: return@Observer
+            progressDialog = ProgressDialog(context)
 
             // disable submit button unless all input form data is valid
             binding.buttonSubmit.isEnabled = paymentState.isDataValid
@@ -102,16 +108,28 @@ class PaymentFormFragment : Fragment() {
                     Timber.d("transaction status received: ${transactionResult}")
                     if (transactionResult != null) {
                         val mapper = ServiceLocator.checkoutResultModelPresenterMapper
+                        if (progressDialog.isShowing) {
+                            progressDialog.dismiss()
+                        }
                         val action = PaymentFormFragmentDirections.actionPaymentFormFragmentToPaymentSummaryFragment(
                             mapper.mapFromEntity(transactionResult)
                         )
                         findNavController().navigate(action)
                     }
                 }
-                is Resource.Loading -> Timber.d("LOADING payment transaction") // TODO victor.valencia show the progress dialog
+                is Resource.Loading -> {
+                    Timber.d("LOADING payment transaction")
+                    if (progressDialog.isShowing.not()) {
+                        progressDialog.setTitle(R.string.paymentForm_progress_dialog_title)
+                        progressDialog.show()
+                    }
+                }
                 is Resource.Error -> {
                     toast("An error occurs: ${resource.message}")
                     Timber.e(resource.exception)
+                    if (progressDialog.isShowing) {
+                        progressDialog.hide()
+                    }
                 }
             }
         })

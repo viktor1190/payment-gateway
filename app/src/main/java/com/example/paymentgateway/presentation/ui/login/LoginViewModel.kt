@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.paymentgateway.R
 import com.example.paymentgateway.domain.LoginUseCase
+import com.example.paymentgateway.domain.LogoutUseCase
 import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.ui.login.state.LoggedInUserView
 import com.example.paymentgateway.presentation.ui.login.state.LoginFormState
 import com.example.paymentgateway.presentation.ui.login.state.LoginResult
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel(private val loginUseCase: LoginUseCase, private val logoutUseCase: LogoutUseCase) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -59,6 +60,11 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
                     isDataValid = true
                 )
         }
+    }
+
+    fun logout() {
+        logoutUseCase()
+        _loginResult.postValue(LoginResult(null, R.string.logout_message))
     }
 
     // A placeholder username validation check

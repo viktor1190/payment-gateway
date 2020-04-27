@@ -1,5 +1,6 @@
 package com.example.paymentgateway.data
 
+import com.example.paymentgateway.data.core.UserNoLoggedInException
 import com.example.paymentgateway.domain.entity.LoggedInUser
 import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.domain.repository.UserRepository
@@ -36,14 +37,15 @@ class UserRepositoryImpl(val dataSource: LoginDataSource): UserRepository {
         return result
     }
 
-    override suspend fun logout(): Resource<Nothing?> {
+    override fun logout(): Resource<Nothing?> {
         user = null
         dataSource.logout()
         return Resource.Success(null)
     }
 
-    override suspend fun loadUser(): Resource<LoggedInUser> {
-        return Resource.Success(user!!)
+    override fun loadUser(): Resource<LoggedInUser> {
+        val currentUser = user
+        return if (currentUser != null) Resource.Success(currentUser) else Resource.Error(UserNoLoggedInException("There isn't logged in user"))
     }
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
