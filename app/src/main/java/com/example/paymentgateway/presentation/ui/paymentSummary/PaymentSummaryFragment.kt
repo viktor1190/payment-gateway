@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.paymentgateway.databinding.FragmentPaymentSummaryBinding
 import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultDecorator
+import com.example.paymentgateway.presentation.util.getStatusColor
+import com.example.paymentgateway.presentation.util.getStatusDrawable
 
 class PaymentSummaryFragment : Fragment() {
 
@@ -27,8 +29,12 @@ class PaymentSummaryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val checkoutResult = args.checkoutResult
+        val statusDrawable = checkoutResult.getStatusDrawable(resources)
+        val statusColor = checkoutResult.getStatusColor(resources)
         val checkoutHelper = CheckoutResultDecorator(checkoutResult)
         binding.textviewPyamentSummaryState.text = checkoutResult.status
+        binding.textviewPyamentSummaryState.setCompoundDrawablesWithIntrinsicBounds(null, null, null, statusDrawable)
+        binding.textviewPyamentSummaryState.setBackgroundColor(statusColor)
         binding.textviewPyamentSummaryHeaders.text = checkoutHelper.getHeaders()
         binding.textviewPyamentSummaryValues.text = checkoutHelper.getValues()
     }

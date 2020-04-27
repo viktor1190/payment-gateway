@@ -6,4 +6,9 @@
     <color name="background">#FAFAFA</color>
     <color name="dark">#0E0404</color>
     <color name="darkGray">#1A1A1A</color>
+
+    <!-- Checkout status colors -->
+    <color name="error">#F44336</color>
+    <color name="warning">#FBC02D</color>
+    <color name="pass">#4CAF50</color>
 </resources>

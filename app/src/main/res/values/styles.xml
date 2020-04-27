@@ -12,7 +12,7 @@
         <item name="colorSecondary">#2962FF</item>
         <item name="colorSecondaryVariant">#0039CB</item>
         <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="colorError">#F44336</item>
+        <item name="colorError">@color/error</item>
         <item name="colorOnError">#FFFFFF</item>
         <item name="colorSurface">#FFFFFF</item>
         <item name="colorOnSurface">#212121</item>
@@ -50,5 +50,4 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/dark</item>
     </style>
-
 </resources>
