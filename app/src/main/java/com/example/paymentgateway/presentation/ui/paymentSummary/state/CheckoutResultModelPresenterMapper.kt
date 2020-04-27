@@ -7,7 +7,7 @@ import com.example.paymentgateway.presentation.core.PresentationModelMapper
 class CheckoutResultModelPresenterMapper: PresentationModelMapper<CheckoutResultModel, TransactionStatus> {
 
     override fun mapToEntity(model: CheckoutResultModel): TransactionStatus {
-        TODO("Not yet implemented")
+        TODO("Not need to implement")
     }
 
     override fun mapFromEntity(entity: TransactionStatus): CheckoutResultModel {

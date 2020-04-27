@@ -53,7 +53,7 @@ class TransactionStatusListViewModel(
                         else -> Resource.Loading<List<CheckoutResultModel?>>(emptyList())
                     }
                 }
-            delay(2000) // TODO victor.valencia check how to sort this out
+            delay(10000)
         }
     }
 }

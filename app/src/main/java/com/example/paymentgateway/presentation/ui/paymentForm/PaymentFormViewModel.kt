@@ -30,8 +30,6 @@ class PaymentFormViewModel(
     private val _transactionResult = MediatorLiveData<Resource<TransactionStatus>>()
     val transactionResult: LiveData<Resource<TransactionStatus>> = _transactionResult
 
-    // TODO victor.valencia add the observer for the submit response
-
     fun submit(
         name: String,
         email: String,
@@ -42,7 +40,6 @@ class PaymentFormViewModel(
         amount: String
     ) {
         if (paymentFormState.value?.isDataValid == true) {
-            // TODO victor.valencia use the currency to show it to the user
             val currencyAmount = CurrencyAmount(amount.toFloat(), Currency.getInstance(Locale.getDefault()))
             val checkoutModel = CheckoutModel(name, email, cellphone, cardNumber, cardDueMonthAndYear, cardCvv, currencyAmount)
             viewModelScope.launch {
