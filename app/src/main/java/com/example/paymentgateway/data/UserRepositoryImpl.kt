@@ -10,6 +10,8 @@ import com.example.paymentgateway.domain.repository.UserRepository
  */
 class UserRepositoryImpl(val dataSource: LoginDataSource): UserRepository {
 
+    // TODO victor.valencia the user credentials are mocked here as far as there is not any
+    //  requirement to fetch them from the API
     // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
         private set
@@ -41,9 +43,7 @@ class UserRepositoryImpl(val dataSource: LoginDataSource): UserRepository {
     }
 
     override suspend fun loadUser(): Resource<LoggedInUser> {
-        // TODO victor.valencia the user credentials are mocked here as far as there is not any
-        //  requirement to fetch them from the API
-        return Resource.Success(LoggedInUser("6dd490faf9cb87a9862245da41170ff2", "024h1IlD"))
+        return Resource.Success(user!!)
     }
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {

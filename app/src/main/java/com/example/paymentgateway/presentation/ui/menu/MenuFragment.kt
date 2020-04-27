@@ -8,12 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.paymentgateway.R
 import com.example.paymentgateway.databinding.FragmentMenuBinding
+import com.example.paymentgateway.presentation.core.ServiceLocator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MenuFragment : Fragment() {
 
     // View Binding
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
+    private val logoutUseCase = ServiceLocator.logoutUseCase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +45,13 @@ class MenuFragment : Fragment() {
         }
         binding.menuButtonPaymentList.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_transactionStatusListFragment)
+        }
+        binding.menuButtonLogout.setOnClickListener {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) { logoutUseCase() }
+                val action = MenuFragmentDirections.actionMenuFragmentToLoginFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 

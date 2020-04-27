@@ -16,6 +16,7 @@ import com.example.paymentgateway.domain.DeleteTransactionUseCase
 import com.example.paymentgateway.domain.GetCurrentUserUseCase
 import com.example.paymentgateway.domain.GetTransactionStatusListUseCase
 import com.example.paymentgateway.domain.LoginUseCase
+import com.example.paymentgateway.domain.LogoutUseCase
 import com.example.paymentgateway.domain.SendCheckoutUseCase
 import com.example.paymentgateway.presentation.ApplicationController
 import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelPresenterMapper
@@ -46,6 +47,7 @@ object ServiceLocator {
 
     // Use Cases
     private val getCurrentUserUseCase by lazy { GetCurrentUserUseCase(userRepository) }
+    val logoutUseCase by lazy { LogoutUseCase(userRepository) }
     private val loginUseCase by lazy { LoginUseCase(userRepository) }
     private val sendCheckoutUseCase by lazy { SendCheckoutUseCase(getCurrentUserUseCase, transactionRepository) }
     private val getTransactionStatusListUseCase by lazy { GetTransactionStatusListUseCase(getCurrentUserUseCase, transactionRepository) }

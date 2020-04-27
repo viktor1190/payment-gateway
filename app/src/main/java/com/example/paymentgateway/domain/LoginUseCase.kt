@@ -10,3 +10,10 @@ class LoginUseCase(private val userRepository: UserRepository) {
         return userRepository.login(username, password)
     }
 }
+
+class LogoutUseCase(private val userRepository: UserRepository) {
+
+    suspend operator fun invoke() {
+        userRepository.logout()
+    }
+}

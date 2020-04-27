@@ -10,7 +10,6 @@ import com.example.paymentgateway.presentation.ui.login.LoginViewModel
 import com.example.paymentgateway.presentation.ui.paymentForm.PaymentFormViewModel
 import com.example.paymentgateway.presentation.ui.paymentForm.state.CheckoutModelPresenterMapper
 import com.example.paymentgateway.presentation.ui.paymentList.TransactionStatusListViewModel
-import com.example.paymentgateway.presentation.ui.paymentSummary.PaymentSummaryViewModel
 import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModelPresenterMapper
 
 /**
@@ -34,8 +33,6 @@ class ViewModelFactory(
                 LoginViewModel(loginUseCase)
             modelClass.isAssignableFrom(PaymentFormViewModel::class.java) ->
                 PaymentFormViewModel(sendCheckoutUseCase, presenterMapper)
-            modelClass.isAssignableFrom(PaymentSummaryViewModel::class.java) ->
-                PaymentSummaryViewModel()
             modelClass.isAssignableFrom(TransactionStatusListViewModel::class.java) ->
                 TransactionStatusListViewModel(getTransactionStatusListUseCase, deleteTransactionUseCase, checkoutResponseMapper)
             else ->

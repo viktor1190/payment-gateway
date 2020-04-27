@@ -14,6 +14,7 @@
     <!-- Main Menu -->
     <string name="menu_newPayment_button">Pay</string>
     <string name="menu_showPayments_button">Show Payments</string>
+    <string name="menu_logout_button">Logout</string>
 
     <!-- Payment Form -->
     <string name="paymentForm_user_name_hint">Name</string>
@@ -37,4 +38,8 @@
     <!-- Payment List -->
     <string name="transactionDetailDialog_dialogTitle">Transaction Details</string>
     <string name="transactionDetailDialog_action_button_delete">Delete</string>
+
+    <!-- victor.valencia This is test data for easy testing, avoid this in real productions app -->
+    <string name="default_test_username">6dd490faf9cb87a9862245da41170ff2</string>
+    <string name="default_test_password">024h1IlD</string>
 </resources>
