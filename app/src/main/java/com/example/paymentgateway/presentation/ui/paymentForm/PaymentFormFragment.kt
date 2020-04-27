@@ -71,9 +71,11 @@ class PaymentFormFragment : Fragment() {
     }
 
     private fun setupView() {
+        progressDialog = ProgressDialog(context)
+        progressDialog.setCancelable(false)
+
         viewModel.paymentFormState.observe(viewLifecycleOwner, Observer {
             val paymentState = it ?: return@Observer
-            progressDialog = ProgressDialog(context)
 
             // disable submit button unless all input form data is valid
             binding.buttonSubmit.isEnabled = paymentState.isDataValid
@@ -125,7 +127,7 @@ class PaymentFormFragment : Fragment() {
                     }
                 }
                 is Resource.Error -> {
-                    toast("An error occurs: ${resource.message}")
+                    toast(getString(R.string.paymentFragment_checkout_genericError, resource.message))
                     Timber.e(resource.exception)
                     if (progressDialog.isShowing) {
                         progressDialog.hide()

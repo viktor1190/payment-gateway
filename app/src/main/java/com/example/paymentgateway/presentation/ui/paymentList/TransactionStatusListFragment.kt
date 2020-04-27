@@ -13,7 +13,6 @@ import com.example.paymentgateway.domain.repository.Resource
 import com.example.paymentgateway.presentation.core.ServiceLocator
 import com.example.paymentgateway.presentation.core.ViewModelFactory
 import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModel
-import com.example.paymentgateway.presentation.util.toast
 import timber.log.Timber
 
 class TransactionStatusListFragment : Fragment(), TransactionStatusRecyclerViewAdapter.OnListFragmentInteractionListener {
@@ -78,7 +77,6 @@ class TransactionStatusListFragment : Fragment(), TransactionStatusRecyclerViewA
     }
 
     override fun onListFragmentInteraction(item: CheckoutResultModel?) {
-        toast("item selected: ${item?.reference}")
         if (item != null) {
             dialogFragment = TransactionDetailDialogFragment.newInstance(item)
             dialogFragment?.show(parentFragmentManager, TransactionDetailDialogFragment.TAG)

@@ -44,4 +44,5 @@
     <!-- victor.valencia This is test data for easy testing, avoid this in real productions app -->
     <string name="default_test_username">6dd490faf9cb87a9862245da41170ff2</string>
     <string name="default_test_password">024h1IlD</string>
+    <string name="paymentFragment_checkout_genericError">Checkout Faile: %1$s</string>
 </resources>
