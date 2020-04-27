@@ -7,15 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="colorPrimaryVariant">#000000</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#2962FF</item>
-        <item name="colorSecondaryVariant">#0039CB</item>
-        <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="colorError">@color/error</item>
-        <item name="colorOnError">#FFFFFF</item>
-        <item name="colorSurface">#FFFFFF</item>
-        <item name="colorOnSurface">#212121</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="colorOnBackground">#212121</item>
         <item name="fontFamily">@font/roboto_mono_thin</item>
@@ -25,7 +16,7 @@
         <item name="alertDialogTheme">@style/DialogStyle</item>
     </style>
 
-    <style name="DialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="DialogStyle" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="android:windowMinWidthMajor">97%</item>
         <item name="android:windowMinWidthMinor">97%</item>
     </style>

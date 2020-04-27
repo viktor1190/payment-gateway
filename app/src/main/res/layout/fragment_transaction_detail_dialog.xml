@@ -2,28 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false"
-    android:paddingTop="@dimen/margin_all"
-    android:paddingBottom="@dimen/margin_all"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView_transactionDetailDialog_reference"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView_transactionDetailDialog_total"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
         android:id="@+id/textView_transactionDetailDialog_status"
+        style="@style/PaymentSummary_State"
+        android:drawableBottom="@drawable/ic_check_24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:fontFamily="@font/roboto_mono_thin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="STATE"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textview_pyamentSummary_headers"
+            style="@style/PaymentSummary_Keys"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_all"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="@dimen/margin_all"
+            android:textAlignment="textEnd"
+            tools:text="Headers:" />
+
+        <TextView
+            android:id="@+id/textview_pyamentSummary_values"
+            style="@style/PaymentSummary_Values"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/margin_all"
+            android:layout_marginBottom="@dimen/margin_all"
+            tools:text="Values" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_transactionDetailDialog_delete"

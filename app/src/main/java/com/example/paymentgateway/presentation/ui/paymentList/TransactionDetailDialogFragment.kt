@@ -10,7 +10,10 @@ import com.example.paymentgateway.R
 import com.example.paymentgateway.databinding.FragmentTransactionDetailDialogBinding
 import com.example.paymentgateway.presentation.core.ServiceLocator
 import com.example.paymentgateway.presentation.core.ViewModelFactory
+import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultDecorator
 import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModel
+import com.example.paymentgateway.presentation.util.getStatusColor
+import com.example.paymentgateway.presentation.util.getStatusDrawable
 
 const val ARG_CHECKOUT_MODEL = "checkout_model"
 
@@ -36,12 +39,15 @@ class TransactionDetailDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         this.dialog?.setTitle(R.string.transactionDetailDialog_dialogTitle)
-
         val checkout = arguments?.getParcelable<CheckoutResultModel>(ARG_CHECKOUT_MODEL)!!
-        binding.textViewTransactionDetailDialogReference.text = checkout.reference
+        val statusDrawable = checkout.getStatusDrawable(resources)
+        val statusColor = checkout.getStatusColor(resources)
+        val checkoutHelper = CheckoutResultDecorator(checkout)
         binding.textViewTransactionDetailDialogStatus.text = checkout.status
-        binding.textViewTransactionDetailDialogTotal.text = checkout.total.toString() + checkout.currency
-
+        binding.textViewTransactionDetailDialogStatus.setCompoundDrawablesWithIntrinsicBounds(null, null, null, statusDrawable)
+        binding.textViewTransactionDetailDialogStatus.setBackgroundColor(statusColor)
+        binding.textviewPyamentSummaryHeaders.text = checkoutHelper.getHeaders()
+        binding.textviewPyamentSummaryValues.text = checkoutHelper.getValues()
         binding.buttonTransactionDetailDialogDelete.setOnClickListener {
             viewModel.deleteTransaction(checkout.reference)
             dismiss()

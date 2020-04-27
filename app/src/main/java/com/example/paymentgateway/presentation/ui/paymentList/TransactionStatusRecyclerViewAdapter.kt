@@ -1,15 +1,15 @@
 package com.example.paymentgateway.presentation.ui.paymentList
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.paymentgateway.R
+import com.example.paymentgateway.databinding.FragmentTransactionStatusItemBinding
 import com.example.paymentgateway.presentation.ui.paymentList.TransactionStatusRecyclerViewAdapter.OnListFragmentInteractionListener
 import com.example.paymentgateway.presentation.ui.paymentSummary.state.CheckoutResultModel
-import kotlinx.android.synthetic.main.fragment_transaction_status_item.view.content
-import kotlinx.android.synthetic.main.fragment_transaction_status_item.view.item_number
+import com.example.paymentgateway.presentation.util.getStatusColor
+import com.example.paymentgateway.presentation.util.getStatusDrawable
 
 /**
  * [RecyclerView.Adapter] that can display a [CheckoutResultModel] and makes a call to the
@@ -31,30 +31,41 @@ class TransactionStatusRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_transaction_status_item, parent, false)
-        return ViewHolder(view)
+        val binder = FragmentTransactionStatusItemBinding.inflate(LayoutInflater.from(parent.context))
+        binder.root.apply {
+            this.layoutParams = RecyclerView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+        return ViewHolder(binder, parent.resources)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values?.get(position)
-        holder.mIdView.text = item?.status
-        holder.mContentView.text = "${item?.total.toString()} ${item?.currency}"
-
-        with(holder.mView) {
-            tag = item
-            setOnClickListener(mOnClickListener)
-        }
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = values?.size ?: 0
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
+    inner class ViewHolder(private val itemBinding: FragmentTransactionStatusItemBinding, private val resources: Resources) :
+        RecyclerView.ViewHolder(itemBinding.root) {
+        fun bind(checkoutResultModel: CheckoutResultModel?) {
+            if (checkoutResultModel != null) {
+                itemBinding.itemImage.setImageDrawable(checkoutResultModel.getStatusDrawable(resources))
+                itemBinding.itemImage.setBackgroundColor(checkoutResultModel.getStatusColor(resources))
+                itemBinding.itemTitle.text = checkoutResultModel.status
+                itemBinding.itemSubtitle.text = checkoutResultModel.lastUpdate
+                itemBinding.itemValue.text = "${checkoutResultModel.total} ${checkoutResultModel.currency}"
+                with(itemBinding.root) {
+                    tag = checkoutResultModel
+                    setOnClickListener(mOnClickListener)
+                }
+            }
+        }
 
         override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+            return super.toString() + " '" + itemBinding.itemSubtitle.text + "'"
         }
     }
 
