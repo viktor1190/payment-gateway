@@ -55,14 +55,14 @@ HANDS TO WORK!
 The Solution approach
 ---------------------
 
-Applying all the knowledge I have been acquiring so far to become to be a Software Architect, I decided to create a codebase using the Clean Architecture approach as follows.
+I decided to create a codebase using the **Clean Architecture** approach, in that way I going to apply all the knowledge I have been acquiring so far to begin my career path as a Software Architect
 
 Architecture definition
 -----------------------
 
 The main idea being defining an architecture to start coding is to divide the software system into small logical pieces of work, aka divide and conquer principle.
 
-Taking the Clean Architecture defined by Robert C Martin as the start point, I have created a simplified version of it for this project. This architecture tackles a Domain Driven Development (DDD) approach, dividing the system into 3 different layers (remember this is a simplified version of CA):
+Taking the Clean Architecture defined by Robert C Martin as the started point, I have created a simplified version of the architecture for this project. This architecture tackles a Domain Driven Development (DDD) approach, dividing the system into 3 different layers (remember this is a simplified version of CA):
 
 ![poject layered structure](docs/project_structure.png)
 
@@ -82,29 +82,30 @@ It contains all the components regarding the UI/Android interfaces.
 ![user navigation flow](docs/presentation_layer.png)
 
 **Bullet points:**
-- MVVM pattern is used with the help of JetPack's ViewModel library.
-- Navigation component is used to simplify the navigation flow management.
-- Material Design theme definition as the basis of the overall app style.
+- **MVVM** pattern is used with the help of JetPack's ViewModel library.
+- **Navigation component** is used to simplify the navigation flow management.
+- **Material Design** theme definition as the basis of the overall app style.
 
 ### DOMAIN LAYER
-The core architecture layer. It defines the client requirements and sets a code that is clean and concise enough to guarantee the maintainability, flexibility, and scalability of the system.
+Is the core architecture layer. It defines the client requirements and sets a code that is clean and concise enough to guarantee the maintainability, flexibility, and scalability of the system.
 
 **Bullet points:**
-- High test coverage: Although this project doesn't have tests (I promise to add them when having some room), this layer gives us a base code free of external dependencies, with enough clarity, that follows the Single Responsibility principle, making this a layer of code easy to test and maintain. I need to highlight the need for implementing tests for all the layers of code inside the app, but due to the third-party dependencies, they would be harder to implement for the rest of the layers.
-- Inversion of Control principle IoC: The use cases do its work through the repository interfaces, and any other dependency that the use case would need, are used with interfaces. Have a dependency from abstractions instead of an implementation is the basis of the low in coupling code and high in cohesion.
+- **High test coverage**: Although this project doesn't have tests (I promise to add them when having some room), this layer gives us a base code free of external dependencies. With enough clarity, following the Single Responsibility principle, what makes this a layer of code easy to test and maintain.
+I should highlight the need for implementing tests for all the layers of code inside the app but due to the third-party dependencies that are present in the data and presentation layers, it would be a little harder to implement tests on those layers.
+- **Inversion of Control principle IoC**: The use cases do its work through the repositories interfaces, and any other dependency that the use case would need, are implemented behind interfaces. Having a dependency from abstractions instead of an implementation is the basis of the low in coupling code and high in cohesion.
 
 ### DATA LAYER
-Implementing the Repository pattern defines the local database managed by Room as the Single Source of Truth. This custom implementation uses a synchronization policy defined at the _NetworkBoundResource_ class. This class makes a data synchronization between the remote source and the database, based on a condition defined in each one of the repositories.
+This layer implements the **Repository pattern** that defines the local database managed by **Room** as the Single Source of Truth. This custom implementation uses a synchronization policy defined at the _NetworkBoundResource_ class. This class makes a data synchronization between the remote data source and the database, based on a condition defined in each one of the repositories.
 
 **Bullet points:**
 - At the transaction list screen, each time the user gets into this view fragment, the _PENDING_ transactions are synchronized with the cloud.
-- A unique LiveData object is returned to the view after merging the data requests from the repositories, in this way the user is always seeing the latest data without matters about the source of truth.
+- A unique LiveData object is returned to the view after merging the data requests from the repositories. In this way the user is always seeing the latest data without matters about the source of truth.
 
 ### Other libraries and characteristics to be highlighted
 - **Kotlin Coroutines**: To make the async requests like networking and database.
-- **Live Data**: used as the main mechanism of inter-components communication. Sending the received data from the cloud to the database, to the use case, to the UI to be finally shown to the user.
+- **Live Data**: used as the main mechanism of inter-communication between components. Sending the received data from the cloud to the database, to the use case, to the UI to finally be displayed to the user.
 - **Mappers**: Each layer boundary needs to use a mapper to converts between the different models used by the layering architecture. These classes could be identified in the file explorer by looking at the end of the file name:  "...Mapper.kt"
-- Kotlin-Extensions-Functions, ViewBinding, Regex and among other features: You will find a lot of technologies used in this project, feel free to inspect each part, I did my best effort to have a clean and easy to understand code (with a minimum knowledge of course). I'm open to improvements and questions.
-- Third-party code: There are a couple of classes that I use as start point for coding, taken from the Google samples repositories. Copying good code is not a bad practice, not recognize the original author, it is. Thanks Google, for giving me the base code to create the NetworkBoundResource.kt and ApiResponse.kt classes.
+- **Kotlin-Extensions-Functions**, **ViewBinding**, **Regex** and **among other features**: You will find a lot of technologies used in this project, feel free to inspect each part of the code. I did my best effort to have a clean and easy to understand code (with a minimum knowledge of course). I'm open to improvements and questions.
+- **Third-party code**: There are a couple of classes that I used as start point for coding. Taken from the Google samples repositories. Copying good code is not a bad practice, not recognizing the original author, it is. Thanks Google devs, for giving me the base code to create the NetworkBoundResource.kt and ApiResponse.kt classes.
 
 ![architecture overview](docs/overview.jpg)
