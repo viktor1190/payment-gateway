@@ -85,9 +85,6 @@ Taking the Clean Architecture defined by Robert C Martin as the start point, I h
 
 Those are the 3 different packages that you will find in the source code.
 
-COMPONENTS INTERACTION DIAGRAM
-------------------------------
-
 Brief description of the layers:
 ===============================
 
