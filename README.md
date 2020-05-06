@@ -76,21 +76,6 @@ Components interaction diagram
 Brief description of the layers:
 ===============================
 
-Architecture definition
------------------------
-
-The main idea being defining an architecture to start coding is to divide the software system into small logical pieces of work, aka divide and conquer principle.
-
-Taking the Clean Architecture defined by Robert C Martin as the start point, I have created a simplified version of it for this project. This architecture tackles a Domain Driven Development (DDD) approach, dividing the system into 3 different layers (remember this is a simplified version of CA):
-
-Those are the 3 different packages that you will find in the source code.
-
-COMPONENTS INTERACTION DIAGRAM
-------------------------------
-
-Brief description of the layers:
-===============================
-
 ### PRESENTATION LAYER
 It contains all the components regarding the UI/Android interfaces.
 
